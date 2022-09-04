@@ -24,6 +24,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   .inner {
+    min-width: 360px;
     max-width: 670px;
     margin: 0 auto;
     padding: 0 25px;
