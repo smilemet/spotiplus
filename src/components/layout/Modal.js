@@ -18,6 +18,7 @@ const ModalContainer = styled.div`
     height: ${(props) => props.height};
     background-color: #fff;
     position: absolute;
+    right: 0;
     z-index: 100;
   }
 `;

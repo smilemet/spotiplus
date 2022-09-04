@@ -1,11 +1,12 @@
-import React, { useRef, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 import Modal from "./Modal.js";
+import { Checkbox } from "react-bootstrap";
 
 const HeaderContainer = styled.header`
   padding: 35px 0 30px;
@@ -71,39 +72,38 @@ const HeaderContainer = styled.header`
 `;
 
 const SignIn = styled(Modal)`
+  .modal {
+    padding: 40px 20px;
+  }
+
+  .sign-info {
+    font-size: 16px;
+    margin-bottom: 20px;
+
+    span {
+      color: #1ba738;
+    }
+  }
+
   .sign-btn {
     width: 100%;
     height: 35px;
+    margin-bottom: 10px;
     background-color: #1ed760;
     color: #fff;
     border-radius: 5px;
+  }
+
+  .night-btn {
+    position: absolute;
+    bottom: 30px;
+    right: 17px;
   }
 `;
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [tab1Active, setTap1Active] = useState(false);
-  const [tab2Active, setTap2Active] = useState(false);
-  const [tab3Active, setTap3Active] = useState(false);
-
-  // 탭 하단 언더바 표시
-  const handleTab1 = () => {
-    setTap1Active((tab1Active) => true);
-    setTap2Active((tab2Active) => false);
-    setTap3Active((tab3Active) => false);
-  };
-
-  const handleTab2 = () => {
-    setTap1Active((tab1Active) => false);
-    setTap2Active((tab2Active) => true);
-    setTap3Active((tab3Active) => false);
-  };
-
-  const handleTab3 = () => {
-    setTap1Active((tab1Active) => false);
-    setTap2Active((tab2Active) => false);
-    setTap3Active((tab3Active) => true);
-  };
+  const location = useLocation();
 
   // 클릭 시 메뉴 모달창 팝업
   const handleMenu = (e) => {
@@ -120,7 +120,9 @@ const Header = () => {
             </Link>
             <div className="menu">
               <span className="search-icon">
-                <FontAwesomeIcon icon={faMagnifyingGlass} />
+                <NavLink to="/search">
+                  <FontAwesomeIcon icon={faMagnifyingGlass} />
+                </NavLink>
               </span>
               <span className="menu-icon" onClick={handleMenu}>
                 <FontAwesomeIcon icon={faBars} />
@@ -130,27 +132,36 @@ const Header = () => {
 
           <nav className="nav-bar">
             <ul>
-              <li onClick={handleTab1}>
-                <NavLink to="/">
+              <li>
+                <NavLink to="/search">
                   <div>
                     곡 검색
-                    <div className="under-bar" style={{ display: tab1Active ? "block" : "none" }} />
+                    <div
+                      className="under-bar"
+                      style={{ display: location.pathname === "/search" ? "block" : "none" }}
+                    />
                   </div>
                 </NavLink>
               </li>
-              <li onClick={handleTab2}>
-                <NavLink to="/">
+              <li>
+                <NavLink to="/recommend">
                   <div>
                     맞춤추천
-                    <div className="under-bar" style={{ display: tab2Active ? "block" : "none" }} />
+                    <div
+                      className="under-bar"
+                      style={{ display: location.pathname === "/recommend" ? "block" : "none" }}
+                    />
                   </div>
                 </NavLink>
               </li>
-              <li onClick={handleTab3}>
-                <NavLink to="/">
+              <li>
+                <NavLink to="/receipt">
                   <div>
                     영수증
-                    <div className="under-bar" style={{ display: tab3Active ? "block" : "none" }} />
+                    <div
+                      className="under-bar"
+                      style={{ display: location.pathname === "/receipt" ? "block" : "none" }}
+                    />
                   </div>
                 </NavLink>
               </li>
@@ -159,16 +170,16 @@ const Header = () => {
         </div>
       </HeaderContainer>
 
-      <SignIn isOpen={isOpen} setIsOpen={setIsOpen} width="100%" height="150px">
+      <SignIn isOpen={isOpen} setIsOpen={setIsOpen} width="60%" height="100%">
         {/* 로그인 정보 없음 */}
         <div>
-          <p>
+          <p className="sign-info">
             <span>로그인</span>해주세요.
           </p>
-          <span>switch</span>
+          <button className="sign-btn">로그인</button>
         </div>
         <div>
-          <button className="sign-btn">로그인</button>
+          <input type="checkbox" className="night-btn" />
         </div>
       </SignIn>
     </>
