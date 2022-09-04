@@ -16,7 +16,14 @@ const theme = {
   gray: "#eee",
 
   // inner 안 max-width
-  maxWidth: "530px",
+  maxWidth: "670px",
+
+  button: `
+    width: 100%;
+    height: 35px;
+    background-color: #1ed760;
+    color: #fff;
+  `,
 };
 
 export default theme;

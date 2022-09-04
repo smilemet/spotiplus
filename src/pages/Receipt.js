@@ -47,11 +47,9 @@ const ReceiptContainer = styled.main`
     text-align: center;
 
     button {
-      width: 100%;
+      ${(props) => props.theme.button}
       height: 40px;
       font-weight: bold;
-      background-color: ${(props) => props.theme.pointColor};
-      color: ${(props) => props.theme.pointFontColor};
     }
   }
 `;

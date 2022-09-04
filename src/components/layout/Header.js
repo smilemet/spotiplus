@@ -85,11 +85,8 @@ const SignIn = styled(Modal)`
   }
 
   .sign-btn {
-    width: 100%;
-    height: 35px;
+    ${(props) => props.theme.button}
     margin-bottom: 10px;
-    background-color: ${(props) => props.theme.pointColor};
-    color: ${(props) => props.theme.pointFontColor};
     border-radius: 5px;
   }
 
