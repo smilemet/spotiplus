@@ -2,6 +2,7 @@
  * 오늘의 추천곡을 표시하는 메인페이지
  */
 import React from "react";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 import imgPH from "../assets/img/img-placeholder.png";
@@ -84,18 +85,24 @@ const Main = () => {
           <div>
             <ul className="song-list">
               <li>
-                <img className="small-img" src={imgPH} alt="이미지로딩중" />
-                <p>곡제목</p>
+                <NavLink className="song-info" to="/detail">
+                  <img className="small-img" src={imgPH} alt="이미지로딩중" />
+                  <p>곡제목</p>
+                </NavLink>
               </li>
 
               <li>
-                <img className="small-img" src={imgPH} alt="이미지로딩중" />
-                <p>곡제목</p>
+                <NavLink className="song-info" to="/detail">
+                  <img className="small-img" src={imgPH} alt="이미지로딩중" />
+                  <p>곡제목</p>
+                </NavLink>
               </li>
 
               <li>
-                <img className="small-img" src={imgPH} alt="이미지로딩중" />
-                <p>곡제목</p>
+                <NavLink className="song-info" to="/detail">
+                  <img className="small-img" src={imgPH} alt="이미지로딩중" />
+                  <p>곡제목</p>
+                </NavLink>
               </li>
             </ul>
           </div>

@@ -115,6 +115,7 @@ const Search = () => {
           <ul>
             <li>
               <NavLink className="song-info" to="/detail">
+                {/* <NavLink className="song-info" to={"/detail/" + {id}}> */}
                 <span>1</span>
                 <img className="small-img" src={imgPH} alt="이미지로딩중" />
                 <div>

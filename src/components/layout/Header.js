@@ -46,10 +46,9 @@ const HeaderContainer = styled.header`
       width: 100%;
       line-height: 32px;
       text-align: center;
-      /* background-color: #23477330; */
 
       &:hover {
-        background-color: #eee;
+        background-color: ${(props) => props.theme.gray};
       }
     }
 
@@ -63,7 +62,7 @@ const HeaderContainer = styled.header`
 
         .under-bar {
           height: 3px;
-          background-color: #1ed760;
+          background-color: ${(props) => props.theme.pointColor};
           border-radius: 2px;
         }
       }
@@ -81,7 +80,7 @@ const SignIn = styled(Modal)`
     margin-bottom: 20px;
 
     span {
-      color: #1ba738;
+      color: ${(props) => props.theme.pointColorDarker};
     }
   }
 
@@ -89,8 +88,8 @@ const SignIn = styled(Modal)`
     width: 100%;
     height: 35px;
     margin-bottom: 10px;
-    background-color: #1ed760;
-    color: #fff;
+    background-color: ${(props) => props.theme.pointColor};
+    color: ${(props) => props.theme.pointFontColor};
     border-radius: 5px;
   }
 

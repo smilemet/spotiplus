@@ -6,6 +6,7 @@ import Main from "../pages/Main.js";
 import Search from "../pages/Search.js";
 import Recommend from "../pages/Recommend.js";
 import Receipt from "../pages/Receipt.js";
+import Detail from "../pages/Detail.js";
 
 const Router = () => {
   return (
@@ -16,6 +17,9 @@ const Router = () => {
           <Route path="/search" element={<Search />} />
           <Route path="/recommend" element={<Recommend />} />
           <Route path="/receipt" element={<Receipt />} />
+
+          <Route path="/detail" element={<Detail id={"id"} />} />
+          {/* <Route path="/detail/:id" element={<Detail id={"id"} />} /> */}
         </Route>
       </Routes>
     </>

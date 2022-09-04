@@ -5,7 +5,7 @@ import spotifylogo from "../../assets/img/Spotify_Logo_RGB_Green.png";
 
 const FooterContainer = styled.footer`
   padding: 20px 0;
-  background-color: #eeeeee70;
+  background-color: ${(props) => props.theme.gray}; /** 나중에 삭제 */
   text-align: center;
 
   img {
