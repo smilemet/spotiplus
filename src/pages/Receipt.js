@@ -1,5 +1,5 @@
 /**
- * 일정 기간 가장 많이 들은 곡을 메뉴판으로 만들어주는 페이지
+ * 일정 기간 가장 많이 들은 곡을 메뉴판 이미지로 만들어주는 페이지
  */
 import React, { useState } from "react";
 import styled from "styled-components";

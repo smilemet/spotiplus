@@ -1,3 +1,6 @@
+/**
+ * 곡 정보를 검색하는 페이지
+ */
 import React from "react";
 import styled from "styled-components";
 
