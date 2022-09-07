@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
-import Modal from "./Modal.js";
-import { Checkbox } from "react-bootstrap";
+import SignIn from "../SignIn.js";
 
 const HeaderContainer = styled.header`
   padding: 35px 0 30px;
@@ -67,33 +66,6 @@ const HeaderContainer = styled.header`
         }
       }
     }
-  }
-`;
-
-const SignIn = styled(Modal)`
-  .modal {
-    padding: 40px 20px;
-  }
-
-  .sign-info {
-    font-size: 16px;
-    margin-bottom: 20px;
-
-    span {
-      color: ${(props) => props.theme.pointColorDarker};
-    }
-  }
-
-  .sign-btn {
-    ${(props) => props.theme.button}
-    margin-bottom: 10px;
-    border-radius: 5px;
-  }
-
-  .night-btn {
-    position: absolute;
-    bottom: 30px;
-    right: 17px;
   }
 `;
 
@@ -166,18 +138,7 @@ const Header = () => {
         </div>
       </HeaderContainer>
 
-      <SignIn isOpen={isOpen} setIsOpen={setIsOpen} width="60%" height="100%">
-        {/* 로그인 정보 없음 */}
-        <div>
-          <p className="sign-info">
-            <span>로그인</span>해주세요.
-          </p>
-          <button className="sign-btn">로그인</button>
-        </div>
-        <div>
-          <input type="checkbox" className="night-btn" />
-        </div>
-      </SignIn>
+      <SignIn isOpen={isOpen} setIsOpen={setIsOpen} width="60%" height="100%" />
     </>
   );
 };

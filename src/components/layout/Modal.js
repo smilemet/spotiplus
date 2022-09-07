@@ -23,18 +23,18 @@ const ModalContainer = styled.div`
   }
 `;
 
-const Modal = ({ children, ...props }) => {
+const Modal = ({ children, className, ...props }) => {
   const ref = useRef();
 
   // 모달 창 닫기
   const closeModal = (e) => {
     if (ref && !ref.current.contains(e.target)) {
-      props.setIsOpen(false);
+      props[0].setIsOpen(false);
     }
   };
 
   return (
-    <ModalContainer {...props} onClick={closeModal}>
+    <ModalContainer className={className} {...props[0]} onClick={closeModal}>
       <div className="modal" ref={ref}>
         {children}
       </div>
