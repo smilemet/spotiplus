@@ -20,6 +20,7 @@ const SongListContainer = styled.div`
         display: flex;
         max-width: 100%;
         min-width: 0;
+        flex-grow: 1;
 
         & > span {
           margin-right: 10px;
@@ -34,7 +35,6 @@ const SongListContainer = styled.div`
 
         & > div {
           flex-shrink: 2;
-          flex-grow: 0;
           width: calc();
           padding: 10px 10px 0 0;
           min-width: 0;
@@ -65,24 +65,45 @@ const SongListContainer = styled.div`
   }
 `;
 
-const SongList = () => {
+const SongList = (props) => {
   return (
     <SongListContainer>
       <ul>
-        <li>
-          <NavLink className="song-info" to="/detail">
-            {/* <NavLink className="song-info" to={"/detail/" + {id}}> */}
-            <span>1</span>
-            <img className="small-img" src={imgPH} alt="이미지로딩중" />
-            <div>
-              <p>곡 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목 제목</p>
-              <p>아티스트</p>
-            </div>
-          </NavLink>
-          <NavLink className="play-btn" to="spotify 듣기 주소">
-            <FontAwesomeIcon icon={faCirclePlay} />
-          </NavLink>
-        </li>
+        {props.data ? (
+          props.data.map((value, index) => {
+            return (
+              <li key={index}>
+                <NavLink className="song-info" to="/detail">
+                  {/* <NavLink className="song-info" to={"/detail/" + {id}}> */}
+                  <span>{index + 1}</span>
+                  <img className="small-img" src={value.album.images[0].url} alt="이미지로딩중" />
+                  <div>
+                    <p>{value.name}</p>
+                    <p>
+                      {value.artists.map((v, i) => {
+                        return i === value.artists.length - 1 ? v.name : v.name + ", ";
+                      })}
+                    </p>
+                  </div>
+                </NavLink>
+                <NavLink className="play-btn" to="spotify 듣기 주소">
+                  <FontAwesomeIcon icon={faCirclePlay} />
+                </NavLink>
+              </li>
+            );
+          })
+        ) : (
+          <li>
+            <NavLink className="song-info" to="/detail">
+              <span>1</span>
+              <img className="small-img" src={imgPH} alt="이미지로딩중" />
+              <div>
+                <p>곡제목</p>
+                <p>아티스트명</p>
+              </div>
+            </NavLink>
+          </li>
+        )}
       </ul>
     </SongListContainer>
   );
