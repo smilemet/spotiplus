@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import SignSlice from "./slices/SignSlice.js";
+import TokenSlice from "./slices/TokenSlice.js";
 
 const store = configureStore({
   reducer: {
-    sign: SignSlice,
+    token: TokenSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
   devTools: true,

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
-import { getToken, setToken, setIsLogIn } from "../slices/SignSlice.js";
+import { setToken, setIsLogIn, getToken } from "../slices/TokenSlice.js";
 
 import Modal from "./layout/Modal.js";
 
@@ -34,30 +34,40 @@ const SignInContainer = styled(Modal)`
 `;
 
 const SignIn = (...props) => {
-  // const [token]
-  const { token, isLogIn } = useSelector((state) => state.sign);
+  const { token, expire, isLogIn } = useSelector((state) => state.token);
   const dispatch = useDispatch();
 
-  // 토큰 상태관리
-  useEffect(() => {
-    // dispatch(setToken(token));
-  }, [token]);
-
-  // 로그인 클릭
+  // 로그인
   const logIn = useCallback(() => {
     dispatch(getToken());
-    console.log(token);
   }, [dispatch]);
+
+  // 로그아웃
+  const logOut = useCallback(() => {
+    let clear = { value: null, expire: null };
+    dispatch(setToken(clear));
+
+    localStorage.clear("spotify_token");
+  });
+
+  // 발급 토큰 있으면 세팅
+  useEffect(() => {
+    let isToken = localStorage.getItem("spotify_token");
+    if (isToken) {
+      let parseToken = JSON.parse(isToken);
+      dispatch(setToken(parseToken));
+    }
+  }, [token]);
 
   return (
     <SignInContainer {...props}>
-      {token ? (
+      {token && expire >= Date.now() ? (
         <>
           <div>
             <p className="sign-info">
               <span>로그인</span>되었습니다.
             </p>
-            <button className="sign-btn" onClick={logIn}>
+            <button className="sign-btn" onClick={logOut}>
               로그아웃
             </button>
           </div>

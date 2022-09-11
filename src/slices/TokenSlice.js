@@ -17,22 +17,22 @@ export const getToken = createAsyncThunk("TokenSlice/getToken", async () => {
 
   // 토큰 가져오기 -> 앱 인증 방식
   try {
-    result = await axios.post(
-      "https://accounts.spotify.com/api/token",
-      "grant_type=client_credentials",
-      {
-        headers: {
-          Authorization: "Basic " + auth,
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        params: {
-          grant_type: "client_credentials",
-        },
-      }
-    );
-    console.log("hello"); // 지울것
-    // 로컬에 토큰 저장
-    localStorage.setItem("spotify_token", result.data.access_token);
+    result = await axios.post(URL, "grant_type=client_credentials", {
+      headers: {
+        Authorization: "Basic " + auth,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      params: {
+        grant_type: "client_credentials",
+      },
+    });
+
+    const tokenObj = {
+      value: result.data.access_token,
+      expire: Date.now() + result.data.expires_in * 1000,
+    };
+
+    localStorage.setItem("spotify_token", JSON.stringify(tokenObj));
   } catch (err) {
     result = err.response;
     console.error(err);
@@ -44,15 +44,16 @@ export const getToken = createAsyncThunk("TokenSlice/getToken", async () => {
 const TokenSlice = createSlice({
   name: "token",
   initialState: {
-    token: null,
+    token: JSON.parse(localStorage.getItem("spotify_token"))?.value,
+    expire: JSON.parse(localStorage.getItem("spotify_token"))?.expire,
     isLogIn: false,
     data: null,
     loading: false,
     error: null,
   },
-  reducer: {
+  reducers: {
     setToken: (state, action) => {
-      return { ...state, token: action.payload };
+      return { ...state, token: action.payload.value, expire: action.payload.expire };
     },
     setIsLogIn: (state, action) => {
       return { ...state, isLogIn: action.payload };
@@ -84,5 +85,5 @@ const TokenSlice = createSlice({
   },
 });
 
-export default TokenSlice.reducer;
 export const { setToken, setIsLogIn } = TokenSlice.actions;
+export default TokenSlice.reducer;
