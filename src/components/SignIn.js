@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
@@ -34,12 +34,14 @@ const SignInContainer = styled(Modal)`
 `;
 
 const SignIn = (...props) => {
-  const { token, expire, isLogIn } = useSelector((state) => state.token);
+  const { token, expire } = useSelector((state) => state.token);
+  const [refresh, setRefresh] = useState("false");
   const dispatch = useDispatch();
 
   // 로그인
   const logIn = useCallback(() => {
     dispatch(getToken());
+    setRefresh(!refresh);
   }, [dispatch]);
 
   // 로그아웃
@@ -57,12 +59,13 @@ const SignIn = (...props) => {
       let parseToken = JSON.parse(isToken);
       dispatch(setToken(parseToken));
     }
-  }, [token]);
+  }, [token, dispatch]);
 
   return (
     <SignInContainer {...props}>
       {token && expire >= Date.now() ? (
         <>
+          {/* 토큰 있음 */}
           <div>
             <p className="sign-info">
               <span>로그인</span>되었습니다.
@@ -77,7 +80,7 @@ const SignIn = (...props) => {
         </>
       ) : (
         <>
-          {/* 로그인 정보 없음 */}
+          {/* 토큰 없음 & 만료 */}
           <div>
             <p className="sign-info">
               <span>로그인</span>해주세요.

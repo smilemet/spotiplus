@@ -35,7 +35,7 @@ export const getToken = createAsyncThunk("TokenSlice/getToken", async () => {
     localStorage.setItem("spotify_token", JSON.stringify(tokenObj));
   } catch (err) {
     result = err.response;
-    console.error(err);
+    console.error(`-----TokenSlice 에러-----\n ${err}`);
   }
 
   return result;
