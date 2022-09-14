@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
-import { setToken, setIsLogIn, getToken } from "../slices/TokenSlice.js";
+import { setToken, getToken } from "../slices/TokenSlice.js";
 
 import Modal from "./layout/Modal.js";
 
@@ -33,7 +33,7 @@ const SignInContainer = styled(Modal)`
   }
 `;
 
-const SignIn = (...props) => {
+const SignIn = (props) => {
   const { token, expire } = useSelector((state) => state.token);
   const [refresh, setRefresh] = useState("false");
   const dispatch = useDispatch();
@@ -50,7 +50,7 @@ const SignIn = (...props) => {
     dispatch(setToken(clear));
 
     localStorage.clear("spotify_token");
-  });
+  }, [dispatch]);
 
   // 발급 토큰 있으면 세팅
   useEffect(() => {
