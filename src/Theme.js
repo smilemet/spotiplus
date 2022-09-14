@@ -26,6 +26,14 @@ const theme = {
     color: #fff;
   `,
 
+  centerModal: `
+    border-radius: 10px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  `,
+
   // 메인페이지 앨범 이미지
   smallImgWidth: "80px",
 };
