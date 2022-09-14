@@ -29,12 +29,12 @@ const Modal = ({ children, className, ...props }) => {
   // 모달 창 닫기
   const closeModal = (e) => {
     if (ref && !ref.current.contains(e.target)) {
-      props[0].setIsOpen(false);
+      props.setIsOpen(false);
     }
   };
 
   return (
-    <ModalContainer className={className} {...props[0]} onClick={closeModal}>
+    <ModalContainer className={className} {...props} onClick={closeModal}>
       <div className="modal" ref={ref}>
         {children}
       </div>

@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
-import SignIn from "../SignIn.js";
+import SignIn from "../SignInModal.js";
 
 const HeaderContainer = styled.header`
   padding: 35px 0 30px;
@@ -74,9 +74,9 @@ const Header = () => {
   const location = useLocation();
 
   // 클릭 시 메뉴 모달창 팝업
-  const handleMenu = (e) => {
+  const handleMenu = useCallback(() => {
     setIsOpen((isOpen) => !isOpen);
-  };
+  });
 
   return (
     <>

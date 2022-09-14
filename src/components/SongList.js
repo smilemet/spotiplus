@@ -35,14 +35,13 @@ const SongListContainer = styled.div`
 
         & > div {
           flex-shrink: 2;
-          width: calc();
           padding: 10px 10px 0 0;
           min-width: 0;
 
           p {
-            white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            white-space: nowrap;
             text-align: left;
           }
 

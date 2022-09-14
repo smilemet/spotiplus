@@ -7,6 +7,8 @@ const FooterContainer = styled.footer`
   padding: 20px 0;
   background-color: ${(props) => props.theme.gray}; /** 나중에 삭제 */
   text-align: center;
+  /* position: fixed;
+  bottom: 0; */
 
   img {
     width: 70px;
