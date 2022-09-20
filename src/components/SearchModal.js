@@ -1,12 +1,13 @@
 /**
  * 맞춤추천 페이지에서 팝업되는 검색창
  */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import Modal from "./layout/Modal.js";
 import SearchBox from "../components/SearchBox.js";
 import SongList from "./SongList.js";
+import ArtistList from "./ArtistList.js";
 
 const SerchContainer = styled(Modal)`
   .modal {
@@ -44,7 +45,10 @@ const SerchContainer = styled(Modal)`
 
 const Search = (props) => {
   const [list, setList] = useState(null);
-  console.log();
+
+  useEffect(() => {
+    setList(null);
+  }, [props.isOpen]);
 
   return (
     <SerchContainer {...props}>
@@ -56,25 +60,34 @@ const Search = (props) => {
             ) : props.searchInfo?.params.type === "artist" ? (
               <>아티스트 검색</>
             ) : (
-              <>장르 검색</>
+              <>장르 선택</>
             )}
           </p>
-          <SearchBox {...props} />
+          <SearchBox {...props} setList={setList} />
         </section>
         <section className="search-result">
           {list ? (
-            <SongList data={list}></SongList>
+            <>
+              {list.tracks ? (
+                <SongList data={list.tracks.items} />
+              ) : list.artists ? (
+                <ArtistList data={list.artists.items} />
+              ) : (
+                <>데이터가 없습니다.</>
+              )}
+            </>
           ) : (
             <div className="no-data">
               {props.searchInfo?.params.type === "track" ? (
-                <>곡 이름으로 검색해보세요!</>
+                <>곡 이름을 검색해보세요.</>
               ) : props.searchInfo?.params.type === "artist" ? (
-                <>아티스트 이름으로 검색해보세요!</>
+                <>아티스트 이름을 검색해보세요.</>
               ) : (
-                <>장르 이름으로 검색해보세요!</>
+                <>선호 장르를 선택해주세요.</>
               )}
             </div>
           )}
+          <ArtistList />
         </section>
       </div>
     </SerchContainer>

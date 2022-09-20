@@ -79,10 +79,10 @@ const Recommend = memo(() => {
   // const ref = useRef();
 
   const [isOpen, setIsOpen] = useState(false);
-  const [searchInfo, setSearchInfo] = useState(null);
-  const [data, setData] = useState(null);
+  const [searchInfo, setSearchInfo] = useState(null); // 모달에 params 전달
+  const [data, setData] = useState(null); // 맞춤추천 데이터
 
-  const [collection, setCollection] = useState(null);
+  const [collection, setCollection] = useState(null); // 트랙/아티스트/장르
   const [track, setTrack] = useState(null);
   const [artist, setArtist] = useState(null);
   const [genre, setGenre] = useState(null);
@@ -112,6 +112,7 @@ const Recommend = memo(() => {
   });
 
   // 장르 검색
+  // 예시 버튼을 출력하고 그 중 선택하도록 할 것. 검색기능 X
   const onSearchGenre = useCallback((e) => {
     setIsOpen((isOpen) => !isOpen);
     setSearchInfo({
@@ -184,7 +185,6 @@ const Recommend = memo(() => {
         isOpen={isOpen}
         searchInfo={searchInfo}
         setIsOpen={setIsOpen}
-        setData={setData}
         setTrack={setTrack}
         setArtist={setArtist}
         setGenre={setGenre}

@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import imgPH from "../assets/img/img-placeholder.png";
 
-const SongListContainer = styled.div`
+const ArtistListContainer = styled.div`
   ul {
     border-top: 1px solid #888;
     border-bottom: 1px solid #888;
@@ -16,7 +16,7 @@ const SongListContainer = styled.div`
       display: flex;
       padding: 10px 20px;
 
-      .song-info {
+      .artist-info {
         display: flex;
         max-width: 100%;
         min-width: 0;
@@ -64,49 +64,40 @@ const SongListContainer = styled.div`
   }
 `;
 
-const SongList = (props) => {
+const ArtistList = (props) => {
   console.log(props.link);
   return (
-    <SongListContainer>
+    <ArtistListContainer>
       <ul>
         {props.data ? (
           props.data.map((item, index) => {
             return (
               <li key={index}>
-                <NavLink className="song-info" to={props.link ? props.link : ""}>
-                  {/* <NavLink className="song-info" to={"/detail/" + {id}}> */}
+                <NavLink className="artist-info" to={props.link ? props.link : ""}>
                   <span>{index + 1}</span>
-                  <img className="small-img" src={item.album.images[0].url} alt="이미지로딩중" />
+                  <img className="small-img" src={item.images[0].url} alt="이미지로딩중" />
                   <div>
                     <p>{item.name}</p>
-                    <p>
-                      {item.artists.map((v, i) => {
-                        return i === item.artists.length - 1 ? v.name : v.name + ", ";
-                      })}
-                    </p>
+                    <p>아티스트</p>
                   </div>
-                </NavLink>
-                <NavLink className="play-btn" to="spotify 듣기 주소">
-                  <FontAwesomeIcon icon={faCirclePlay} />
                 </NavLink>
               </li>
             );
           })
         ) : (
           <li>
-            <NavLink className="song-info" to="/detail">
-              <span>1</span>
+            <NavLink className="artist-info" to="/detail">
               <img className="small-img" src={imgPH} alt="이미지로딩중" />
               <div>
-                <p>곡제목</p>
                 <p>아티스트명</p>
+                <p>아티스트</p>
               </div>
             </NavLink>
           </li>
         )}
       </ul>
-    </SongListContainer>
+    </ArtistListContainer>
   );
 };
 
-export default SongList;
+export default ArtistList;

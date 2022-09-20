@@ -45,7 +45,15 @@ const Search = memo(() => {
           <SearchBox searchInfo={searchInfo} setList={setList} />
         </section>
         <section className="search-result">
-          {list ? <SongList data={list}></SongList> : <div className="no-data">데이터 없음</div>}
+          {list ? (
+            list.length === 0 ? (
+              <div className="no-data">검색 결과 없음</div>
+            ) : (
+              <SongList data={list} link="/detail" />
+            )
+          ) : (
+            <div className="no-data">검색어를 입력하세요.</div>
+          )}
         </section>
       </div>
     </SearchContainer>

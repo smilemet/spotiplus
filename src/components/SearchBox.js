@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -81,7 +81,11 @@ const SearchBox = (props) => {
           },
         });
 
-        props.setList(data.tracks.items);
+        console.log(data);
+
+        if (props.setList) {
+          props.setList(data);
+        }
       } catch (err) {
         console.error(err);
       }
@@ -93,6 +97,11 @@ const SearchBox = (props) => {
     if (e.key !== "Enter") return;
     onSearch();
   });
+
+  // 모달 껐다 킬 때 검색어 초기화
+  useEffect(() => {
+    inputBox.current.value = "";
+  }, [props.isOpen]);
 
   return (
     <>
