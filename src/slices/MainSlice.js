@@ -7,28 +7,25 @@ import axios from "axios";
 const URL = "https://api.spotify.com/v1/playlists";
 const gTop50_playlist = "/37i9dQZEVXbMDoHDwVN2tF";
 
-export const getList = createAsyncThunk(
-  "MainSlice/getList",
-  async (payload = null, { rejectWithValue }) => {
-    let result = null;
+export const getList = createAsyncThunk("MainSlice/getList", async (payload = null) => {
+  let result = null;
 
-    try {
-      console.log("---새 정보 가져오기---");
-      result = await axios.get(URL + gTop50_playlist, {
-        headers: {
-          Authorization: `Bearer ${payload}`,
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      });
-    } catch (err) {
-      result = err.response;
-      console.error(`-----MainSlice 에러-----\n ${err}`);
-    }
-
-    return result;
+  try {
+    console.log("---새 정보 가져오기---");
+    result = await axios.get(URL + gTop50_playlist, {
+      headers: {
+        Authorization: `Bearer ${payload}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+  } catch (err) {
+    result = err.response;
+    console.error(`-----MainSlice 에러-----\n ${err}`);
   }
-);
+
+  return result;
+});
 
 const MainSlice = createSlice({
   name: "mainList",
@@ -55,7 +52,7 @@ const MainSlice = createSlice({
       return {
         ...state,
         data: payload.data,
-        mainTop: payload.data.tracks.items.splice(0, 1),
+        mainTop: payload.data.tracks.items.splice(0, 1)[0],
         mainList: payload.data.tracks.items,
         loading: false,
         error: null,

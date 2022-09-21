@@ -1,10 +1,8 @@
 /**
  * 로그인 상태를 관리하고 새 토큰을 가져온다.
  */
-
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-
 import { Buffer } from "buffer";
 
 const client_id = process.env.REACT_APP_CLIENT_ID;

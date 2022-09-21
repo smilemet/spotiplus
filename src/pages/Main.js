@@ -89,14 +89,13 @@ const MainContainer = styled.main`
 
 const Main = memo(() => {
   const { token } = useSelector((state) => state.token);
-  const { mainTop, mainList } = useSelector((state) => state.mainList);
+  const { data, mainTop, mainList } = useSelector((state) => state.mainList);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (token) {
       dispatch(getList(token));
     } else {
-      console.log("test");
       dispatch(setMainTop(null));
       dispatch(setMainList(null));
     }
@@ -106,21 +105,21 @@ const Main = memo(() => {
     <MainContainer>
       <div className="inner">
         <section className="today-song">
-          {mainList ? (
-            <>
-              <img className="big-img" src={mainTop[0].track.album.images[0].url} alt="앨범아트" />
+          {data ? (
+            <Link to={`/detail/${mainTop.track.id}`}>
+              <img className="big-img" src={mainTop.track.album.images[0].url} alt="앨범아트" />
               <div>
-                <p className="title">{mainTop[0].track.name}</p>
+                <p className="title">{mainTop.track.name}</p>
                 <p className="artist">
-                  {mainTop[0].track.artists.length > 1
-                    ? mainTop[0].track.artists[0].name + " 외"
-                    : mainTop[0].track.artists[0].name}
+                  {mainTop.track.artists.length > 1
+                    ? mainTop.track.artists[0].name + " 외"
+                    : mainTop.track.artists[0].name}
                 </p>
                 <p className="release">
-                  {dayjs(mainTop[0].track.album.release_date).format("YY.MM.DD") + " 발매"}
+                  {dayjs(mainTop.track.album.release_date).format("YY.MM.DD") + " 발매"}
                 </p>
               </div>
-            </>
+            </Link>
           ) : (
             <>
               <img className="big-img" src={imgPH} alt="이미지로딩중" />
@@ -141,7 +140,7 @@ const Main = memo(() => {
                     return (
                       <>
                         <li key={i}>
-                          <Link to="/detail" className="song-info">
+                          <Link to={`/detail/${v.track.id}`} className="song-info">
                             <img
                               className="small-img"
                               src={v.track.album.images[0].url}
@@ -158,7 +157,7 @@ const Main = memo(() => {
                     return (
                       <>
                         <li key={i}>
-                          <Link to="/detail" className="song-info">
+                          <Link to="" className="song-info">
                             <img
                               className="small-img"
                               src={imgPH}
