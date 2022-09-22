@@ -25,13 +25,14 @@ const SearchContainer = styled.main`
 
     .no-data {
       padding: 30px 0 50px;
+      height: 300px;
     }
   }
 `;
 
 const Search = memo(() => {
   const [list, setList] = useState(null);
-  const searchInfo = {
+  const searchWhat = {
     params: {
       type: "album,artist,track",
       limit: 20,
@@ -42,14 +43,14 @@ const Search = memo(() => {
     <SearchContainer>
       <div className="inner">
         <section className="search">
-          <SearchBox searchInfo={searchInfo} setList={setList} />
+          <SearchBox searchWhat={searchWhat} setList={setList} />
         </section>
         <section className="search-result">
           {list ? (
             list.length === 0 ? (
               <div className="no-data">검색 결과 없음</div>
             ) : (
-              <SongList data={list} link="/detail" />
+              <SongList data={list.tracks} link={true} />
             )
           ) : (
             <div className="no-data">검색어를 입력하세요.</div>
