@@ -42,8 +42,6 @@ const SongChart = (props) => {
     ],
   };
 
-  console.log(data.datasets.data);
-
   return (
     <SongChartContainer>
       <Bar options={options} data={data} />
