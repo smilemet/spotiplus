@@ -11,6 +11,7 @@ const theme = {
   pointColor: "#1ed760",
   pointColorDarker: "#1ba738",
   pointFontColor: "#fff",
+  alertText: "#dd0000",
 
   // 임시 컬러
   gray: "#eee",
