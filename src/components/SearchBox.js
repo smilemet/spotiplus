@@ -31,7 +31,7 @@ const SearchBoxContainer = styled.div`
   }
 
   .alert-text {
-    color: #dd0000;
+    color: ${(props) => props.theme.alertText};
   }
 `;
 
@@ -42,8 +42,6 @@ const SearchBox = (props) => {
 
   // 검색 이벤트
   const onSearch = () => {
-    console.log(props.searchWhat.params);
-
     // 검색어 없으면 경고문구
     if (!inputBox.current.value.trim("")) {
       setIsBlank("검색어를 입력해주세요.");
@@ -69,8 +67,6 @@ const SearchBox = (props) => {
         if (props.setList) {
           props.setList(data);
         }
-
-        console.log(data);
       } catch (err) {
         console.error(err);
       }

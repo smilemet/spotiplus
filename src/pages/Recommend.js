@@ -9,6 +9,8 @@ import { faSquarePlus } from "@fortawesome/free-regular-svg-icons";
 
 import SongList from "../components/SongList.js";
 import Search from "../components/SearchModal.js";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 const RecommendContainer = styled.main`
   .inner {
@@ -66,10 +68,23 @@ const RecommendContainer = styled.main`
     height: 40px;
     font-weight: bold;
     margin-bottom: 10px;
+    cursor: pointer;
+  }
+
+  .alert-text {
+    text-align: center;
+    color: ${(props) => props.theme.alertText};
+  }
+
+  .no-data {
+    padding: 30px 0 40px;
+    text-align: center;
   }
 `;
 
 const Recommend = memo(() => {
+  const { token } = useSelector((state) => state.token);
+
   const [isOpen, setIsOpen] = useState(false);
   const [searchWhat, setSearchWhat] = useState(null); // 모달에 params 전달
   const [track, setTrack] = useState(null);
@@ -78,6 +93,7 @@ const Recommend = memo(() => {
 
   const [query, setQuery] = useState({}); // 맞춤추천 검색어(곡&아티스트&장르)
   const [data, setData] = useState(null); // 맞춤추천 데이터
+  const [isBlank, setIsBlank] = useState(null);
 
   // 트랙 검색
   const onSearch = useCallback((e) => {
@@ -90,6 +106,29 @@ const Recommend = memo(() => {
     });
   });
 
+  const onGetRecommend = useCallback(async () => {
+    if (Object.values(query)?.length === 3) {
+      try {
+        const { data } = await axios.get("https://api.spotify.com/v1/recommendations", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          params: query,
+        });
+        setData(data);
+      } catch (err) {
+        console.error(err);
+      }
+
+      setIsBlank(null);
+    } else {
+      setIsBlank("검색어를 입력해주세요.");
+    }
+  });
+
+  console.log("test");
   // 장르 검색
   // 예시 버튼을 출력하고 그 중 선택하도록 할 것. 검색기능 X
 
@@ -154,9 +193,18 @@ const Recommend = memo(() => {
                 </tr>
               </tbody>
             </table>
-            <button className="recomment-btn">내 취향저격 음악 검색</button>
+            <button className="recomment-btn" onClick={onGetRecommend}>
+              내 취향저격 음악 검색
+            </button>
+            <div className="alert-text">{isBlank}</div>
           </section>
-          <section>{data ? <SongList data={data} /> : <></>}</section>
+          <section>
+            {data ? (
+              <SongList data={data.tracks} />
+            ) : (
+              <div className="no-data">검색 결과가 없습니다.</div>
+            )}
+          </section>
         </div>
       </RecommendContainer>
       <Search

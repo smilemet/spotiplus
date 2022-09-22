@@ -1,7 +1,7 @@
 /**
  * 맞춤추천 페이지에서 팝업되는 검색창
  */
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import Modal from "./layout/Modal.js";
@@ -47,11 +47,22 @@ const SearchContainer = styled(Modal)`
       }
 
       span {
-        /* border: 1px solid ${(props) => props.theme.pointColor}; */
-        /* padding: 0 10px; */
+        display: inline-block;
+        padding: 0 10px;
+        margin: 2px 10px;
+        border: 1px solid #ccc;
+        color: #333;
+        border-radius: 15px;
         white-space: wrap;
-        margin: 0 10px;
-        line-height: 2;
+        word-break: keep-all;
+        line-height: 1.5;
+        background-color: #fff;
+
+        &:hover {
+          border: 1px solid ${(props) => props.theme.pointColor};
+          color: ${(props) => props.theme.pointFontColor};
+          background-color: ${(props) => props.theme.pointColor};
+        }
       }
     }
   }
@@ -65,10 +76,29 @@ const Search = (props) => {
   const { token } = useSelector((state) => state.token);
   const [list, setList] = useState(null);
 
+  // 창 닫기 시 데이터 클리어
   useEffect(() => {
     setList(null);
   }, [props.isOpen]);
 
+  // 장르 선택
+  const onSetName = useCallback((e) => {
+    const target = e.currentTarget;
+
+    if (props.searchWhat?.params.type === "genre") {
+      props.setGenre(target.innerText);
+      props.setQuery({
+        ...props.query,
+        seed_genres: target.innerText,
+      });
+    }
+
+    if (props.setIsOpen) {
+      props.setIsOpen(false);
+    }
+  });
+
+  // 장르 선택 창 오픈 시 목록 표시
   useEffect(() => {
     if (props.searchWhat?.params.type === "genre") {
       (async () => {
@@ -87,7 +117,6 @@ const Search = (props) => {
             }
           );
           setList(data);
-          console.log(data);
         } catch (err) {
           console.error(err);
         }
@@ -134,7 +163,11 @@ const Search = (props) => {
                   <p>선호 장르를 선택해주세요.</p>
                   <div>
                     {list?.genres.map((v, i) => {
-                      return <span key={i}>{v}</span>;
+                      return (
+                        <span key={i} onClick={onSetName}>
+                          {v}
+                        </span>
+                      );
                     })}
                   </div>
                 </div>
