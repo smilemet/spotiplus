@@ -144,7 +144,7 @@ const Search = (props) => {
             <>
               {list.tracks ? (
                 <SongList
-                  data={list.tracks}
+                  data={list.tracks.items}
                   setIsOpen={props.setIsOpen}
                   setTrack={props.setTrack}
                   setQuery={props.setQuery}
@@ -152,7 +152,7 @@ const Search = (props) => {
                 />
               ) : list.artists ? (
                 <ArtistList
-                  data={list.artists}
+                  data={list.artists.items}
                   setIsOpen={props.setIsOpen}
                   setArtist={props.setArtist}
                   setQuery={props.setQuery}

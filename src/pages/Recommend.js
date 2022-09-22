@@ -1,7 +1,7 @@
 /**
  * 데이터 입력 시 추천 곡을 출력하는 맞춤추천 페이지
  */
-import React, { memo, useCallback, useState } from "react";
+import React, { memo, useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -127,12 +127,6 @@ const Recommend = memo(() => {
       setIsBlank("검색어를 입력해주세요.");
     }
   });
-
-  console.log("test");
-  // 장르 검색
-  // 예시 버튼을 출력하고 그 중 선택하도록 할 것. 검색기능 X
-
-  // console.log(query);
 
   return (
     <>

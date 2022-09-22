@@ -34,7 +34,7 @@ const Search = memo(() => {
   const [list, setList] = useState(null);
   const searchWhat = {
     params: {
-      type: "album,artist,track",
+      type: "track",
       limit: 20,
     },
   };
@@ -50,7 +50,7 @@ const Search = memo(() => {
             list.length === 0 ? (
               <div className="no-data">검색 결과 없음</div>
             ) : (
-              <SongList data={list.tracks} link={true} />
+              <SongList data={list.tracks.items} link={true} />
             )
           ) : (
             <div className="no-data">검색어를 입력하세요.</div>

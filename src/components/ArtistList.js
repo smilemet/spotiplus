@@ -87,8 +87,8 @@ const ArtistList = (props) => {
     <ArtistListContainer>
       <ul>
         {props.data ? (
-          props.data.items.length !== 0 ? (
-            props.data.items.map((item, index) => {
+          props.data.length !== 0 ? (
+            props.data.map((item, index) => {
               return (
                 <li key={index}>
                   <Link
