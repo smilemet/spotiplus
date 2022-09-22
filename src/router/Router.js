@@ -7,8 +7,19 @@ import Search from "../pages/Search.js";
 import Recommend from "../pages/Recommend.js";
 import Receipt from "../pages/Receipt.js";
 import Detail from "../pages/Detail.js";
+import Test from "../Test.js";
+
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getToken } from "../slices/TokenSlice.js";
 
 const Router = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getToken());
+  }, []);
+
   return (
     <>
       <Routes>
@@ -19,6 +30,9 @@ const Router = () => {
           <Route path="/receipt" element={<Receipt />} />
 
           <Route path="/detail/:id" element={<Detail />} />
+
+          <Route path="/test" element={<Test />} />
+          <Route path="*" element={<Main />} />
           {/* <Route path="/detail/:id" element={<Detail id={"id"} />} /> */}
         </Route>
       </Routes>
