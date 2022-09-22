@@ -32,10 +32,11 @@ const RecommendContainer = styled.main`
 
       .selec-btn {
         margin: 0 auto;
-        /* background-color: ${(props) => props.theme.gray}; */
         font-size: 90px;
         color: #eee;
+        cursor: pointer;
 
+        &.filled,
         &:hover {
           color: ${(props) => props.theme.pointColor};
         }
@@ -69,63 +70,30 @@ const RecommendContainer = styled.main`
 `;
 
 const Recommend = memo(() => {
-  // 트랙, 아티스트, 장르 각각의 상태를 담을 state만들기
-  // 모달창 팝업 -> 데이터 입력 시 아래에 트랙 출력 (실시간업데이트 onChange)
-  // 해당 데이터를 props로 state에 옮겨줌
-  // 데이터가 담기면 innerHtml에 넣어주기
-  // 검색 버튼 클릭 시 해당 데이터를 API로 전달
-  // 가져온 데이터를 songList로 출력
-
-  // const ref = useRef();
-
   const [isOpen, setIsOpen] = useState(false);
-  const [searchInfo, setSearchInfo] = useState(null); // 모달에 params 전달
-  const [data, setData] = useState(null); // 맞춤추천 데이터
-
-  const [collection, setCollection] = useState(null); // 트랙/아티스트/장르
+  const [searchWhat, setSearchWhat] = useState(null); // 모달에 params 전달
   const [track, setTrack] = useState(null);
   const [artist, setArtist] = useState(null);
   const [genre, setGenre] = useState(null);
 
-  // 트랙 검색
-  const onSearchTrack = useCallback((e) => {
-    setIsOpen((isOpen) => !isOpen);
-    setSearchInfo({
-      params: {
-        type: "track",
-        limit: 50,
-      },
-    });
-    setCollection("track");
-  });
+  const [query, setQuery] = useState({}); // 맞춤추천 검색어(곡&아티스트&장르)
+  const [data, setData] = useState(null); // 맞춤추천 데이터
 
-  // 아티스트 검색
-  const onSearchArtist = useCallback((e) => {
+  // 트랙 검색
+  const onSearch = useCallback((e) => {
     setIsOpen((isOpen) => !isOpen);
-    setSearchInfo({
+    setSearchWhat({
       params: {
-        type: "artist",
+        type: e.currentTarget.dataset.filter,
         limit: 50,
       },
     });
-    setCollection("artist");
   });
 
   // 장르 검색
   // 예시 버튼을 출력하고 그 중 선택하도록 할 것. 검색기능 X
-  const onSearchGenre = useCallback((e) => {
-    setIsOpen((isOpen) => !isOpen);
-    setSearchInfo({
-      params: {
-        type: "genre",
-        limit: 50,
-      },
-    });
-    setCollection("genre");
-  });
 
-  // 검색창 조작
-  const onSetKeyword = useCallback((section) => {});
+  // console.log(query);
 
   return (
     <>
@@ -135,19 +103,31 @@ const Recommend = memo(() => {
             <div className="selection">
               <div>
                 <p>트랙</p>
-                <div className="selec-btn" onClick={onSearchTrack}>
+                <div
+                  className={track ? "selec-btn filled" : "selec-btn"}
+                  data-filter="track"
+                  onClick={onSearch}
+                >
                   <FontAwesomeIcon icon={faSquarePlus} />
                 </div>
               </div>
               <div>
                 <p>아티스트</p>
-                <div className="selec-btn" onClick={onSearchArtist}>
+                <div
+                  className={artist ? "selec-btn filled" : "selec-btn"}
+                  data-filter="artist"
+                  onClick={onSearch}
+                >
                   <FontAwesomeIcon icon={faSquarePlus} />
                 </div>
               </div>
               <div>
                 <p>장르</p>
-                <div className="selec-btn" onClick={onSearchGenre}>
+                <div
+                  className={genre ? "selec-btn filled" : "selec-btn"}
+                  data-filter="genre"
+                  onClick={onSearch}
+                >
                   <FontAwesomeIcon icon={faSquarePlus} />
                 </div>
               </div>
@@ -176,19 +156,18 @@ const Recommend = memo(() => {
             </table>
             <button className="recomment-btn">내 취향저격 음악 검색</button>
           </section>
-          <section>
-            <SongList data={data} />
-          </section>
+          <section>{data ? <SongList data={data} /> : <></>}</section>
         </div>
       </RecommendContainer>
       <Search
         isOpen={isOpen}
-        searchInfo={searchInfo}
+        searchWhat={searchWhat}
         setIsOpen={setIsOpen}
         setTrack={setTrack}
         setArtist={setArtist}
         setGenre={setGenre}
-        collection={collection}
+        query={query}
+        setQuery={setQuery}
       />
     </>
   );

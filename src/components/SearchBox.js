@@ -42,29 +42,14 @@ const SearchBox = (props) => {
 
   // 검색 이벤트
   const onSearch = () => {
+    console.log(props.searchWhat.params);
+
     // 검색어 없으면 경고문구
     if (!inputBox.current.value.trim("")) {
       setIsBlank("검색어를 입력해주세요.");
       return;
     } else {
       setIsBlank("");
-    }
-
-    // 맞춤추천 키워드 입력
-    if (props.collection) {
-      switch (props.collection) {
-        case "track":
-          props.setTrack(inputBox.current.value);
-          break;
-        case "artist":
-          props.setArtist(inputBox.current.value);
-          break;
-        case "genre":
-          props.setGenre(inputBox.current.value);
-          break;
-        default:
-          break;
-      }
     }
 
     (async () => {
@@ -76,16 +61,16 @@ const SearchBox = (props) => {
             "Content-Type": "application/json",
           },
           params: {
-            ...props.searchInfo.params,
+            ...props.searchWhat.params,
             q: inputBox.current.value,
           },
         });
 
-        console.log(data);
-
         if (props.setList) {
           props.setList(data);
         }
+
+        console.log(data);
       } catch (err) {
         console.error(err);
       }

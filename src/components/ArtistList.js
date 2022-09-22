@@ -1,9 +1,6 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useCallback, useRef } from "react";
+import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
-
-import { faCirclePlay } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import imgPH from "../assets/img/img-placeholder.png";
 
@@ -15,6 +12,11 @@ const ArtistListContainer = styled.div`
     li {
       display: flex;
       padding: 10px 20px;
+
+      &.no-data {
+        display: block;
+        text-align: center;
+      }
 
       .artist-info {
         display: flex;
@@ -65,35 +67,56 @@ const ArtistListContainer = styled.div`
 `;
 
 const ArtistList = (props) => {
-  console.log(props.link);
+  const onSetName = useCallback((e) => {
+    const target = e.currentTarget;
+
+    if (props.setArtist) {
+      props.setArtist(target.dataset.artist);
+      props.setQuery({
+        ...props.query,
+        seed_artists: target.dataset.id,
+      });
+    }
+
+    if (props.setIsOpen) {
+      props.setIsOpen(false);
+    }
+  });
+
   return (
     <ArtistListContainer>
       <ul>
         {props.data ? (
-          props.data.map((item, index) => {
-            return (
-              <li key={index}>
-                <NavLink className="artist-info" to={props.link ? props.link : ""}>
-                  <span>{index + 1}</span>
-                  <img className="small-img" src={item.images[0].url} alt="이미지로딩중" />
-                  <div>
-                    <p>{item.name}</p>
-                    <p>아티스트</p>
-                  </div>
-                </NavLink>
-              </li>
-            );
-          })
+          props.data.items.length !== 0 ? (
+            props.data.items.map((item, index) => {
+              return (
+                <li key={index}>
+                  <Link
+                    className="artist-info"
+                    data-id={item.id}
+                    data-artist={item.name}
+                    to={props.link ? `/detail/${item.id}` : ""}
+                    onClick={onSetName}
+                  >
+                    <span>{index + 1}</span>
+                    <img
+                      className="small-img"
+                      src={item?.images[0]?.url || imgPH}
+                      alt="아티스트 이미지"
+                    />
+                    <div>
+                      <p>{item.name}</p>
+                      <p>아티스트</p>
+                    </div>
+                  </Link>
+                </li>
+              );
+            })
+          ) : (
+            <li className="no-data">검색 결과가 없습니다.</li>
+          )
         ) : (
-          <li>
-            <NavLink className="artist-info" to="/detail">
-              <img className="small-img" src={imgPH} alt="이미지로딩중" />
-              <div>
-                <p>아티스트명</p>
-                <p>아티스트</p>
-              </div>
-            </NavLink>
-          </li>
+          <li className="no-data">검색어를 입력하세요.</li>
         )}
       </ul>
     </ArtistListContainer>

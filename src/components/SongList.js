@@ -1,5 +1,5 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useCallback, useRef } from "react";
+import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 import { faCirclePlay } from "@fortawesome/free-solid-svg-icons";
@@ -15,6 +15,11 @@ const SongListContainer = styled.div`
     li {
       display: flex;
       padding: 10px 20px;
+
+      &.no-data {
+        display: block;
+        text-align: center;
+      }
 
       .song-info {
         display: flex;
@@ -65,44 +70,63 @@ const SongListContainer = styled.div`
 `;
 
 const SongList = (props) => {
-  console.log(props.link);
+  const onSetName = useCallback((e) => {
+    const target = e.currentTarget;
+
+    if (props.setTrack) {
+      props.setTrack(target.dataset.track);
+      props.setQuery({
+        ...props.query,
+        seed_tracks: target.dataset.id,
+      });
+    }
+
+    if (props.setIsOpen) {
+      props.setIsOpen(false);
+    }
+  });
+
   return (
     <SongListContainer>
       <ul>
         {props.data ? (
-          props.data.map((item, index) => {
-            return (
-              <li key={index}>
-                <NavLink className="song-info" to={props.link ? props.link : ""}>
-                  {/* <NavLink className="song-info" to={"/detail/" + {id}}> */}
-                  <span>{index + 1}</span>
-                  <img className="small-img" src={item.album.images[0].url} alt="이미지로딩중" />
-                  <div>
-                    <p>{item.name}</p>
-                    <p>
-                      {item.artists.map((v, i) => {
-                        return i === item.artists.length - 1 ? v.name : v.name + ", ";
-                      })}
-                    </p>
-                  </div>
-                </NavLink>
-                <NavLink className="play-btn" to="spotify 듣기 주소">
-                  <FontAwesomeIcon icon={faCirclePlay} />
-                </NavLink>
-              </li>
-            );
-          })
+          props.data.items.length !== 0 ? (
+            props.data.items.map((item, index) => {
+              return (
+                <li key={index}>
+                  <Link
+                    className="song-info"
+                    data-track={item.name}
+                    data-id={item.id}
+                    to={props.link ? `/detail/${item.id}` : ""}
+                    onClick={onSetName}
+                  >
+                    <span>{index + 1}</span>
+                    <img
+                      className="small-img"
+                      src={item.album.images[0].url || imgPH}
+                      alt="곡 관련 이미지"
+                    />
+                    <div>
+                      <p>{item.name}</p>
+                      <p>
+                        {item.artists.map((v, i) => {
+                          return i === item.artists.length - 1 ? v.name : v.name + ", ";
+                        })}
+                      </p>
+                    </div>
+                  </Link>
+                  <Link className="play-btn" to="spotify 듣기 주소">
+                    <FontAwesomeIcon icon={faCirclePlay} />
+                  </Link>
+                </li>
+              );
+            })
+          ) : (
+            <li className="no-data">검색 결과가 없습니다.</li>
+          )
         ) : (
-          <li>
-            <NavLink className="song-info" to="/detail">
-              <span>1</span>
-              <img className="small-img" src={imgPH} alt="이미지로딩중" />
-              <div>
-                <p>곡제목</p>
-                <p>아티스트명</p>
-              </div>
-            </NavLink>
-          </li>
+          <li className="no-data">검색어를 입력하세요.</li>
         )}
       </ul>
     </SongListContainer>
