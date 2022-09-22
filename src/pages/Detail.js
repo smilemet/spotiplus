@@ -74,7 +74,6 @@ const Detail = (props) => {
     return () => dispatch(clearDetail());
   }, [dispatch, id, token]);
 
-  console.log(audio);
   return (
     <DetailComponent>
       <div className="inner">
@@ -96,9 +95,9 @@ const Detail = (props) => {
             <>
               <img src={imgPH} alt="이미지로딩중" />
               <div>
-                <p className="title">{"eee"}</p>
-                <p>아티스트</p>
-                <p>발매년월일</p>
+                <p className="title"> </p>
+                <p> </p>
+                <p> </p>
               </div>
             </>
           )}
@@ -121,7 +120,7 @@ const Detail = (props) => {
                 ]}
               />
             ) : (
-              <img src={imgPH} alt="이미지로딩중" />
+              <></>
             )}
           </div>
         </section>
