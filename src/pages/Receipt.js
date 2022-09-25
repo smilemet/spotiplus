@@ -3,10 +3,9 @@
  */
 import axios from "axios";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
 import styled from "styled-components";
 
-import paper from "../assets/img/paper.png";
+import ReceiptPaper from "../components/ReceiptPaper";
 import UserSignIn from "../components/UserSignIn.js";
 
 const ReceiptContainer = styled.main`
@@ -55,39 +54,6 @@ const ReceiptContainer = styled.main`
 
   .receipt-img {
     padding: 20px 0;
-
-    .receipt {
-      width: 320px;
-      padding: 40px 20px;
-      margin: 0 auto;
-      background-image: url(${paper});
-
-      p {
-        ${(props) => props.theme.receiptFont}
-        font-weight: bold;
-
-        &.title {
-          margin-bottom: 10px;
-          text-align: center;
-          font-size: 28px;
-          font-weight: 400;
-          letter-spacing: 2px;
-          ${(props) => props.theme.receiptTitle}
-        }
-      }
-
-      table {
-        width: 100%;
-        margin: 5px 0;
-        border: 1px solid #ccc;
-      }
-
-      th,
-      td {
-        border: 1px solid #ccc;
-        padding: 10px 20px;
-      }
-    }
   }
 
   .download {
@@ -102,25 +68,21 @@ const ReceiptContainer = styled.main`
 `;
 
 const Receipt = () => {
-  const { token } = useSelector((state) => state.token);
-  const [userToken, setUserToken] = useState(null);
-  const rangeRef = useRef([]);
-  const typeRef = useRef([]);
-
   const [range, setRange] = useState("short_term");
   const [type, setType] = useState("tracks");
   const [data, setData] = useState(null);
+
+  const rangeRef = useRef([]);
+  const typeRef = useRef([]);
+
   const hash = window.location.href.indexOf("#");
+  let query = 0;
+  let searchURL = 0;
 
-  // 페이지 마운트 후 해시태그 가져오기
-  useEffect(() => {
-    if (hash > 0) {
-      const query = window.location.href.substring(hash + 1);
-      const searchURL = new URLSearchParams(query);
-
-      setUserToken(searchURL.get("access_token"));
-    }
-  }, []);
+  if (hash !== -1) {
+    query = window.location.href.substring(hash + 1);
+    searchURL = new URLSearchParams(query);
+  }
 
   // 기간 설정
   const onSetRange = useCallback((e) => {
@@ -140,13 +102,14 @@ const Receipt = () => {
     setType(target.dataset.type);
   }, []);
 
+  // 페이지 마운트 후 기본값으로 영수증 생성
   useEffect(() => {
-    if (hash > 0) {
+    if (searchURL) {
       (async () => {
         try {
           const { data } = await axios.get(`https://api.spotify.com/v1/me/top/${type}`, {
             headers: {
-              Authorization: `Bearer ${userToken}`,
+              Authorization: `Bearer ${searchURL.get("access_token")}`,
               Accept: "application/json",
               "Content-Type": "application/json",
             },
@@ -162,13 +125,12 @@ const Receipt = () => {
         }
       })();
     }
-    console.log("hello");
-  }, [type, range, userToken]);
+  }, [type, range, hash, searchURL]);
 
   return (
     <ReceiptContainer>
       <div className="inner">
-        {userToken ? (
+        {query ? (
           <>
             <div className="range">
               <div className="select-bar">
@@ -212,24 +174,7 @@ const Receipt = () => {
               </div>
             </div>
             <div className="receipt-img">
-              <div className="receipt">
-                <p className="title">Spotiplus</p>
-                <p>판매일 : 오늘 날짜</p>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>hello</th>
-                      <th>hello</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>hello</td>
-                      <td>hello</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              <ReceiptPaper data={data} />
             </div>
             <div className="download">
               <button>다운로드</button>
