@@ -9,6 +9,7 @@ import { getList, setMainTop, setMainList } from "../slices/MainSlice.js";
 
 import styled from "styled-components";
 import dayjs from "dayjs";
+import FadeLoader from "react-spinners/FadeLoader";
 
 import imgPH from "../assets/img/img-placeholder.png";
 
@@ -17,6 +18,14 @@ const MainContainer = styled.main`
 
   @mixin small-img-width() {
     width: 80px;
+  }
+
+  .loading {
+    display: ${(props) => (props.isLoading ? "block" : "none")};
+    background-color: #ffffff;
+    inset: 0 0 0 0;
+    position: absolute;
+    z-index: 99;
   }
 
   img {
@@ -87,14 +96,24 @@ const MainContainer = styled.main`
   }
 `;
 
+const spinnerCSS = {
+  position: "absolute",
+  top: "none",
+  right: "none",
+  left: "50%",
+  bottom: "50%",
+};
+
 const Main = memo(() => {
+  const [isLoading, setIsLoading] = useState(false);
   const { token } = useSelector((state) => state.token);
   const { data, mainTop, mainList } = useSelector((state) => state.mainList);
   const dispatch = useDispatch();
 
+  // 메인화면 실행 시 토큰 획득
   useEffect(() => {
     if (token) {
-      dispatch(getList(token));
+      dispatch(getList({ token, setIsLoading }));
     } else {
       dispatch(setMainTop(null));
       dispatch(setMainList(null));
@@ -102,7 +121,10 @@ const Main = memo(() => {
   }, [token, dispatch]);
 
   return (
-    <MainContainer>
+    <MainContainer isLoading={isLoading}>
+      <div className="loading">
+        <FadeLoader color="#36d7b7" loading={isLoading} cssOverride={spinnerCSS} />
+      </div>
       <div className="inner">
         <section className="today-song">
           {data ? (
@@ -124,7 +146,7 @@ const Main = memo(() => {
             <>
               <img className="big-img" src={imgPH} alt="이미지로딩중" />
               <div>
-                <p className="title">로그인해주세요</p>
+                <p className="title">------</p>
                 <p className="artist">------</p>
                 <p className="release">------</p>
               </div>
@@ -164,7 +186,7 @@ const Main = memo(() => {
                               alt="이미지로딩중"
                               width="80px"
                             />
-                            <p>---</p>
+                            <p>-</p>
                           </Link>
                         </li>
                       </>

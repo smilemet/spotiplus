@@ -24,6 +24,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   .inner {
+    position: relative;
     min-width: 360px;
     max-width: 670px;
     margin: 0 auto;
