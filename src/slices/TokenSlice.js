@@ -1,5 +1,5 @@
 /**
- * 로그인 상태를 관리하고 새 토큰을 가져온다.
+ * 앱 실행 시 Spotify의 Clent Credentials Flow에 따라 토큰을 가져온다.
  */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
@@ -7,23 +7,26 @@ import { Buffer } from "buffer";
 
 const client_id = process.env.REACT_APP_CLIENT_ID;
 const client_secret = process.env.REACT_APP_CLIENT_SECRETE;
-const URL = "https://accounts.spotify.com/api/token";
 const auth = Buffer.from(`${client_id}:${client_secret}`).toString("base64");
 
 export const getToken = createAsyncThunk("TokenSlice/getToken", async () => {
   let result = null;
 
-  // 토큰 가져오기 -> 앱 인증 방식
+  // 토큰 가져오기 -> Client Credentials Flow
   try {
-    result = await axios.post(URL, "grant_type=client_credentials", {
-      headers: {
-        Authorization: "Basic " + auth,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      params: {
-        grant_type: "client_credentials",
-      },
-    });
+    result = await axios.post(
+      "https://accounts.spotify.com/api/token",
+      "grant_type=client_credentials",
+      {
+        headers: {
+          Authorization: "Basic " + auth,
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        params: {
+          grant_type: "client_credentials",
+        },
+      }
+    );
 
     const tokenObj = {
       value: result.data.access_token,

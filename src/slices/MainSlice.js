@@ -4,21 +4,23 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const URL = "https://api.spotify.com/v1/playlists";
-const gTop50_playlist = "/37i9dQZEVXbMDoHDwVN2tF";
+const URL = "https://api.spotify.com/v1/playlists" + "/37i9dQZEVXbMDoHDwVN2tF"; // 글로벌 TOP50
 
 export const getList = createAsyncThunk("MainSlice/getList", async (payload = null) => {
   let result = null;
 
   try {
-    console.log("---새 정보 가져오기---");
-    result = await axios.get(URL + gTop50_playlist, {
+    payload.setIsLoading(true);
+
+    result = await axios.get(URL, {
       headers: {
-        Authorization: `Bearer ${payload}`,
+        Authorization: `Bearer ${payload.token}`,
         Accept: "application/json",
         "Content-Type": "application/json",
       },
     });
+
+    payload.setIsLoading(false);
   } catch (err) {
     result = err.response;
     console.error(`-----MainSlice 에러-----\n ${err}`);
