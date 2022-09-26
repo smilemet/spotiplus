@@ -9,7 +9,7 @@ import { getList, setMainTop, setMainList } from "../slices/MainSlice.js";
 
 import styled from "styled-components";
 import dayjs from "dayjs";
-import { Splide, SplideSlide } from "@splidejs/react-splide";
+import { Splide, SplideSlide, SplideTrack } from "@splidejs/react-splide";
 
 import imgPH from "../assets/img/img-placeholder.png";
 import Loading from "../components/Loading.js";
@@ -56,6 +56,7 @@ const MainContainer = styled.main`
   .today-recommend {
     min-width: 0;
     overflow: hidden;
+    position: relative;
 
     & > h2 {
       margin-bottom: 15px;
@@ -67,7 +68,7 @@ const MainContainer = styled.main`
       display: flex;
 
       li {
-        width: ${(props) => props.theme.smallImgWidth};
+        width: ${(props) => props.theme.smallImgWidth} !important;
         margin-right: 10px;
         text-align: center;
 
@@ -83,6 +84,40 @@ const MainContainer = styled.main`
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+        }
+      }
+    }
+
+    .splide__arrow {
+      width: 50px;
+      height: 50px;
+      background-color: #fff;
+      border-radius: 50%;
+      font-size: 30px;
+      opacity: 0.7;
+      position: absolute;
+      top: 50px;
+      z-index: 10;
+
+      span {
+        position: absolute;
+        top: 5%;
+      }
+
+      &.splide__arrow--prev {
+        left: 0;
+
+        span {
+          left: 50%;
+          transform: translate(-55%);
+        }
+      }
+
+      &.splide__arrow--next {
+        right: 0;
+        span {
+          left: 50%;
+          transform: translate(-45%);
         }
       }
     }
@@ -141,43 +176,49 @@ const Main = memo(() => {
           <section className="today-recommend">
             <h2>이런 곡은 어때요?</h2>
             <div>
-              <ul className="song-list">
-                {mainList
-                  ? mainList.map((v, i) => {
+              <Splide
+                Splide
+                options={{
+                  type: "slide",
+                  gap: "0.5rem",
+                  drag: "free",
+                  perPage: 3,
+                  pagination: false,
+                }}
+                hasTrack={false}
+                aria-label="Global Top50"
+                aria-busy="false"
+              >
+                <div className="splide__arrows">
+                  <button className="splide__arrow splide__arrow--prev">
+                    <span>◀</span>
+                  </button>
+                  <button className="splide__arrow splide__arrow--next">
+                    <span>▶</span>
+                  </button>
+                </div>
+                <SplideTrack>
+                  {mainList ? (
+                    mainList.map((v, i) => {
                       return (
-                        <>
-                          <li key={i}>
-                            <Link to={`/detail/${v.track.id}`} className="song-info">
-                              <img
-                                className="small-img"
-                                src={v.track.album.images[0].url}
-                                alt="이미지로딩중"
-                                width="80px"
-                              />
-                              <p>{v.track.name}</p>
-                            </Link>
-                          </li>
-                        </>
+                        <SplideSlide>
+                          <Link to={`/detail/${v.track.id}`} className="song-info">
+                            <img
+                              className="small-img"
+                              src={v.track.album.images[0].url}
+                              alt="이미지로딩중"
+                              width="80px"
+                            />
+                            <p>{v.track.name}</p>
+                          </Link>
+                        </SplideSlide>
                       );
                     })
-                  : new Array(7).fill(0).map((i) => {
-                      return (
-                        <>
-                          <li key={i}>
-                            <Link to="" className="song-info">
-                              <img
-                                className="small-img"
-                                src={imgPH}
-                                alt="이미지로딩중"
-                                width="80px"
-                              />
-                              <p>-</p>
-                            </Link>
-                          </li>
-                        </>
-                      );
-                    })}
-              </ul>
+                  ) : (
+                    <></>
+                  )}
+                </SplideTrack>
+              </Splide>
             </div>
           </section>
         </div>

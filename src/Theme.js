@@ -50,7 +50,7 @@ const theme = {
   `,
 
   // 메인페이지 앨범 이미지
-  smallImgWidth: "80px",
+  smallImgWidth: "90px",
 };
 
 export default theme;
