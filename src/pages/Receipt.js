@@ -2,11 +2,14 @@
  * 일정 기간 가장 많이 들은 곡을 메뉴판 이미지로 만들어주는 페이지
  */
 import axios from "axios";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { createRef, useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 import ReceiptPaper from "../components/ReceiptPaper";
 import UserSignIn from "../components/UserSignIn.js";
+
+import { toPng } from "html-to-image";
+import Loading from "../components/Loading";
 
 const ReceiptContainer = styled.main`
   .inner {
@@ -54,6 +57,11 @@ const ReceiptContainer = styled.main`
 
   .receipt-img {
     padding: 20px 0;
+
+    & > div {
+      width: 320px;
+      margin: 0 auto;
+    }
   }
 
   .download {
@@ -68,12 +76,15 @@ const ReceiptContainer = styled.main`
 `;
 
 const Receipt = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const [range, setRange] = useState("short_term");
   const [type, setType] = useState("tracks");
   const [data, setData] = useState(null);
 
   const rangeRef = useRef([]);
   const typeRef = useRef([]);
+  const canvasRef = createRef();
 
   const hash = window.location.href.indexOf("#");
   let query = 0;
@@ -125,10 +136,34 @@ const Receipt = () => {
         }
       })();
     }
-  }, [type, range, hash, searchURL]);
+  }, [type, range, hash]);
+
+  // 이미지 저장
+  const onSaveReceipt = useCallback(() => {
+    setIsLoading(true);
+    console.log("hello");
+
+    if (canvasRef.current === null) {
+      return;
+    }
+
+    toPng(canvasRef.current, { cacheBust: true })
+      .then((dataUrl) => {
+        const link = document.createElement("a");
+        link.download = "myReciept.png";
+        link.href = dataUrl;
+        link.click();
+
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [canvasRef]);
 
   return (
     <ReceiptContainer>
+      <Loading isLoading={isLoading} />
       <div className="inner">
         {query ? (
           <>
@@ -174,10 +209,10 @@ const Receipt = () => {
               </div>
             </div>
             <div className="receipt-img">
-              <ReceiptPaper data={data} />
+              <ReceiptPaper data={data} type={type} ref={canvasRef} />
             </div>
             <div className="download">
-              <button>다운로드</button>
+              <button onClick={onSaveReceipt}>다운로드</button>
             </div>
           </>
         ) : (
