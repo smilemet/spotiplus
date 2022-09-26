@@ -11,6 +11,8 @@ export const getDetail = createAsyncThunk("DetailSlice/getDetail", async (payloa
   let result = {};
 
   try {
+    payload.setIsLoading(true);
+
     result.track = await axios.get(`${track}/${payload.id}`, {
       headers: {
         Authorization: `Bearer ${payload.token}`,
@@ -18,8 +20,11 @@ export const getDetail = createAsyncThunk("DetailSlice/getDetail", async (payloa
         "Content-Type": "application/json",
       },
     });
+
+    payload.setIsLoading(false);
   } catch (err) {
     result = err.response;
+    payload.setIsLoading(false);
     console.err(`-----DetailSlice 에러-----\n ${err}`);
   }
 

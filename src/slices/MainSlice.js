@@ -4,7 +4,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const URL = "https://api.spotify.com/v1/playlists" + "/37i9dQZEVXbMDoHDwVN2tF"; // 글로벌 TOP50
+const URL = "https://api.spotify.com/v1/playlists" + "/37i9dQZEVXbMDoHDwVN2tF" + "/tracks"; // 글로벌 TOP50
 
 export const getList = createAsyncThunk("MainSlice/getList", async (payload = null) => {
   let result = null;
@@ -18,11 +18,15 @@ export const getList = createAsyncThunk("MainSlice/getList", async (payload = nu
         Accept: "application/json",
         "Content-Type": "application/json",
       },
+      params: {
+        limit: 20,
+      },
     });
 
     payload.setIsLoading(false);
   } catch (err) {
     result = err.response;
+    payload.setIsLoading(false);
     console.error(`-----MainSlice 에러-----\n ${err}`);
   }
 
@@ -54,8 +58,8 @@ const MainSlice = createSlice({
       return {
         ...state,
         data: payload.data,
-        mainTop: payload.data.tracks.items.splice(0, 1)[0],
-        mainList: payload.data.tracks.items,
+        mainTop: payload.data.items.splice(0, 1)[0],
+        mainList: payload.data.items,
         loading: false,
         error: null,
       };

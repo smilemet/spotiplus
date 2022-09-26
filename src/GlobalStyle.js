@@ -11,6 +11,10 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 13px;
+
+    main {
+      min-height: 72vh;
+    }
   }
 
   a {

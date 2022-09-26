@@ -5,11 +5,12 @@ import styled from "styled-components";
 import spotifylogo from "../../assets/img/Spotify_Logo_RGB_Green.png";
 
 const FooterContainer = styled.footer`
-  position: absolute;
+  /* position: absolute; */
   width: 100vw;
   bottom: 0;
   padding: 20px 0;
   text-align: center;
+  background-color: #fff;
 
   img {
     width: 70px;

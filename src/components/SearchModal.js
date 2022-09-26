@@ -41,6 +41,8 @@ const SearchContainer = styled(Modal)`
   }
 
   .search-result {
+    overflow-y: ${(props) => (props.list ? "scroll" : "hidden")};
+
     .genre {
       p {
         margin-bottom: 20px;
@@ -125,7 +127,7 @@ const Search = (props) => {
   }, [props.searchWhat]);
 
   return (
-    <SearchContainer {...props}>
+    <SearchContainer {...props} list={list}>
       <div className="modal-inner">
         <section className="search">
           <p className="title">
