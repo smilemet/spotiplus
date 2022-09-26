@@ -9,23 +9,16 @@ import { getList, setMainTop, setMainList } from "../slices/MainSlice.js";
 
 import styled from "styled-components";
 import dayjs from "dayjs";
-import FadeLoader from "react-spinners/FadeLoader";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
 
 import imgPH from "../assets/img/img-placeholder.png";
+import Loading from "../components/Loading.js";
 
 const MainContainer = styled.main`
   padding: 0;
 
   @mixin small-img-width() {
     width: 80px;
-  }
-
-  .loading {
-    display: ${(props) => (props.isLoading ? "block" : "none")};
-    background-color: #ffffff;
-    inset: 0 0 0 0;
-    position: absolute;
-    z-index: 99;
   }
 
   img {
@@ -96,16 +89,9 @@ const MainContainer = styled.main`
   }
 `;
 
-const spinnerCSS = {
-  position: "absolute",
-  top: "none",
-  right: "none",
-  left: "50%",
-  bottom: "50%",
-};
-
 const Main = memo(() => {
   const [isLoading, setIsLoading] = useState(false);
+
   const { token } = useSelector((state) => state.token);
   const { data, mainTop, mainList } = useSelector((state) => state.mainList);
   const dispatch = useDispatch();
@@ -121,81 +107,81 @@ const Main = memo(() => {
   }, [token, dispatch]);
 
   return (
-    <MainContainer isLoading={isLoading}>
-      <div className="loading">
-        <FadeLoader color="#36d7b7" loading={isLoading} cssOverride={spinnerCSS} />
-      </div>
-      <div className="inner">
-        <section className="today-song">
-          {data ? (
-            <Link to={`/detail/${mainTop.track.id}`}>
-              <img className="big-img" src={mainTop.track.album.images[0].url} alt="앨범아트" />
-              <div>
-                <p className="title">{mainTop.track.name}</p>
-                <p className="artist">
-                  {mainTop.track.artists.length > 1
-                    ? mainTop.track.artists[0].name + " 외"
-                    : mainTop.track.artists[0].name}
-                </p>
-                <p className="release">
-                  {dayjs(mainTop.track.album.release_date).format("YY.MM.DD") + " 발매"}
-                </p>
-              </div>
-            </Link>
-          ) : (
-            <>
-              <img className="big-img" src={imgPH} alt="이미지로딩중" />
-              <div>
-                <p className="title">------</p>
-                <p className="artist">------</p>
-                <p className="release">------</p>
-              </div>
-            </>
-          )}
-        </section>
-        <section className="today-recommend">
-          <h2>이런 곡은 어때요?</h2>
-          <div>
-            <ul className="song-list">
-              {mainList
-                ? mainList.map((v, i) => {
-                    return (
-                      <>
-                        <li key={i}>
-                          <Link to={`/detail/${v.track.id}`} className="song-info">
-                            <img
-                              className="small-img"
-                              src={v.track.album.images[0].url}
-                              alt="이미지로딩중"
-                              width="80px"
-                            />
-                            <p>{v.track.name}</p>
-                          </Link>
-                        </li>
-                      </>
-                    );
-                  })
-                : new Array(7).fill(0).map((i) => {
-                    return (
-                      <>
-                        <li key={i}>
-                          <Link to="" className="song-info">
-                            <img
-                              className="small-img"
-                              src={imgPH}
-                              alt="이미지로딩중"
-                              width="80px"
-                            />
-                            <p>-</p>
-                          </Link>
-                        </li>
-                      </>
-                    );
-                  })}
-            </ul>
-          </div>
-        </section>
-      </div>
+    <MainContainer>
+      <Loading isLoading={isLoading} />
+      {!isLoading && (
+        <div className="inner">
+          <section className="today-song">
+            {data ? (
+              <Link to={`/detail/${mainTop.track.id}`}>
+                <img className="big-img" src={mainTop.track.album.images[0].url} alt="앨범아트" />
+                <div>
+                  <p className="title">{mainTop.track.name}</p>
+                  <p className="artist">
+                    {mainTop.track.artists.length > 1
+                      ? mainTop.track.artists[0].name + " 외"
+                      : mainTop.track.artists[0].name}
+                  </p>
+                  <p className="release">
+                    {dayjs(mainTop.track.album.release_date).format("YY.MM.DD") + " 발매"}
+                  </p>
+                </div>
+              </Link>
+            ) : (
+              <>
+                <img className="big-img" src={imgPH} alt="이미지로딩중" />
+                <div>
+                  <p className="title">------</p>
+                  <p className="artist">------</p>
+                  <p className="release">------</p>
+                </div>
+              </>
+            )}
+          </section>
+          <section className="today-recommend">
+            <h2>이런 곡은 어때요?</h2>
+            <div>
+              <ul className="song-list">
+                {mainList
+                  ? mainList.map((v, i) => {
+                      return (
+                        <>
+                          <li key={i}>
+                            <Link to={`/detail/${v.track.id}`} className="song-info">
+                              <img
+                                className="small-img"
+                                src={v.track.album.images[0].url}
+                                alt="이미지로딩중"
+                                width="80px"
+                              />
+                              <p>{v.track.name}</p>
+                            </Link>
+                          </li>
+                        </>
+                      );
+                    })
+                  : new Array(7).fill(0).map((i) => {
+                      return (
+                        <>
+                          <li key={i}>
+                            <Link to="" className="song-info">
+                              <img
+                                className="small-img"
+                                src={imgPH}
+                                alt="이미지로딩중"
+                                width="80px"
+                              />
+                              <p>-</p>
+                            </Link>
+                          </li>
+                        </>
+                      );
+                    })}
+              </ul>
+            </div>
+          </section>
+        </div>
+      )}
     </MainContainer>
   );
 });
