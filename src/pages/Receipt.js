@@ -8,7 +8,7 @@ import styled from "styled-components";
 import ReceiptPaper from "../components/ReceiptPaper";
 import UserSignIn from "../components/UserSignIn.js";
 
-import { toPng } from "html-to-image";
+import html2canvas from "html2canvas";
 import Loading from "../components/Loading";
 
 const ReceiptContainer = styled.main`
@@ -147,18 +147,14 @@ const Receipt = () => {
       return;
     }
 
-    toPng(canvasRef.current, { cacheBust: true })
-      .then((dataUrl) => {
-        const link = document.createElement("a");
-        link.download = "myReciept.png";
-        link.href = dataUrl;
-        link.click();
+    html2canvas(canvasRef.current).then((canvas) => {
+      let link = document.createElement("a");
+      link.download = "내_레시피";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    });
 
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    setIsLoading(false);
   }, [canvasRef]);
 
   return (
