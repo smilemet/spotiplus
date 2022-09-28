@@ -15,12 +15,6 @@ import Loading from "../components/Loading.js";
 import TodaySong from "../components/TodaySong.js";
 
 const MainContainer = styled.main`
-  padding: 0;
-
-  @mixin small-img-width() {
-    width: 80px;
-  }
-
   img {
     &.big-img {
       width: ${(props) => props.theme.bigImgWidth};
@@ -35,16 +29,24 @@ const MainContainer = styled.main`
     margin-bottom: 35px;
     text-align: center;
 
+    div {
+      margin: 0 auto;
+      width: ${(props) => props.theme.bigImgWidth};
+    }
+
     img {
       margin-bottom: 15px;
     }
 
     p {
+      margin: 0 auto;
+
       &.title {
         margin-bottom: 10px;
         font-weight: 500;
         font-size: 16px;
       }
+
       &.artist,
       &.release {
         margin-top: 5px;
@@ -90,9 +92,9 @@ const Main = memo(() => {
         <div className="inner">
           <section className="today-song">
             {data ? (
-              <Link to={`/detail/${mainTop.track.id}`}>
-                <img className="big-img" src={mainTop.track.album.images[0].url} alt="앨범아트" />
-                <div>
+              <div>
+                <Link to={`/detail/${mainTop.track.id}`}>
+                  <img className="big-img" src={mainTop.track.album.images[0].url} alt="앨범아트" />
                   <p className="title">{mainTop.track.name}</p>
                   <p className="artist">
                     {mainTop.track.artists.length > 1
@@ -102,8 +104,8 @@ const Main = memo(() => {
                   <p className="release">
                     {dayjs(mainTop.track.album.release_date).format("YY.MM.DD") + " 발매"}
                   </p>
-                </div>
-              </Link>
+                </Link>
+              </div>
             ) : (
               <>
                 <img className="big-img" src={imgPH} alt="이미지로딩중" />

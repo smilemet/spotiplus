@@ -28,9 +28,10 @@ const SongListContainer = styled.div`
         flex-grow: 1;
 
         & > span {
+          min-width: 25px;
           margin-right: 10px;
           line-height: 60px;
-          font-size: 20px;
+          font-size: 18px;
         }
 
         & > img {

@@ -42,7 +42,8 @@ const RecommendContainer = styled.main`
   }
 
   .selection-info {
-    width: 85%;
+    max-width: 435px;
+    min-width: 435px;
     margin: 5px auto 15px;
     table-layout: fixed;
 

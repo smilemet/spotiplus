@@ -64,8 +64,14 @@ const SearchBox = (props) => {
           },
         });
 
+        // 곡 리스트 정보
         if (props.setList) {
           props.setList(data);
+        }
+
+        // 무한스크롤 쿼리값
+        if (props.setQuery) {
+          props.setQuery(inputBox.current.value);
         }
       } catch (err) {
         console.error(err);
