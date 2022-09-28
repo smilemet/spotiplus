@@ -6,14 +6,43 @@ const GlobalStyle = createGlobalStyle`
 
   * {
     box-sizing: border-box;
+    /* background-color:#000 */
   }
   
   body {
+    margin: 0;
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 13px;
 
-    main {
-      min-height: 72vh;
+    #root {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+
+      header, footer {
+        flex-shrink: 0;
+      }
+
+      main {
+        flex-grow: 1;
+        overflow-y: scroll;
+        height: 77vh;
+
+        &::-webkit-scrollbar {
+          width: 8px;
+          height: 8px;
+          background-color: #ffffff50;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          border-radius: 10px;
+          background-color: #00000020;
+        }
+
+        &::-webkit-scrollbar-track {
+          background-color: #ffffff50;
+        }
+      }
     }
   }
 
@@ -30,7 +59,7 @@ const GlobalStyle = createGlobalStyle`
   .inner {
     position: relative;
     min-width: 360px;
-    max-width: 670px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 0 25px;
   }

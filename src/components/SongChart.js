@@ -8,7 +8,6 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip);
 
 const SongChartContainer = styled.div`
   canvas {
-    /* width: 900px !important; */
     .title {
       font-size: 20px;
     }
@@ -36,7 +35,6 @@ const SongChart = (props) => {
       {
         label: "Dataset 1",
         data: labels.map((label) => props.data[label]),
-        // borderColor: "#1ED760",
         backgroundColor: "#1ED76050",
       },
     ],

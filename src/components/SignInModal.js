@@ -42,7 +42,7 @@ const SignIn = (props) => {
   const logIn = useCallback(() => {
     dispatch(getToken());
     setRefresh(!refresh);
-  }, [dispatch]);
+  }, [dispatch, refresh]);
 
   // 로그아웃
   const logOut = useCallback(() => {

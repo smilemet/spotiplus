@@ -13,8 +13,27 @@ import Loading from "../components/Loading";
 
 const ReceiptContainer = styled.main`
   .inner {
-    width: 100%;
-    max-width: ${(props) => props.theme.maxWidth};
+    display: flex;
+
+    & > div {
+      margin: 0 auto;
+    }
+
+    section {
+      padding: 0 20px;
+    }
+
+    .receipt-img {
+      flex-shrink: 0.2;
+      flex-grow: 2;
+    }
+
+    .selection {
+      margin: 0 auto;
+      max-width: 450px;
+      flex-shrink: 1;
+      /* flex-grow: 2; */
+    }
   }
 
   .no-usertoken {
@@ -37,15 +56,26 @@ const ReceiptContainer = styled.main`
       height: 30px;
       margin: 0 auto;
       text-align: center;
+      border: 1px solid ${(props) => props.theme.gray};
 
       p {
         display: table-cell;
-        background-color: ${(props) => props.theme.gray};
+        background-color: #fff;
         line-height: 3;
+        border-left: 1px solid ${(props) => props.theme.gray};
+        position: relative;
+
+        &:first-of-type {
+          border-left: none;
+        }
 
         &.active {
-          background-color: ${(props) => props.theme.pointColor};
-          color: ${(props) => props.theme.pointFontColor};
+          ${(props) => props.theme.shine}
+          z-index: 1;
+
+          & + p {
+            border-left: none;
+          }
         }
       }
     }
@@ -55,22 +85,28 @@ const ReceiptContainer = styled.main`
     margin-top: 15px;
   }
 
-  .receipt-img {
-    padding: 20px 0;
-
-    & > div {
-      width: 320px;
-      margin: 0 auto;
-    }
-  }
-
   .download {
+    margin-top: 200px;
     text-align: center;
 
     button {
       ${(props) => props.theme.button}
       height: 40px;
       font-weight: bold;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .inner {
+      display: block;
+    }
+
+    .receipt-img {
+      margin-bottom: 20px;
+    }
+
+    .download {
+      margin-top: 50px;
     }
   }
 `;
@@ -163,53 +199,60 @@ const Receipt = () => {
       <div className="inner">
         {query ? (
           <>
-            <div className="range">
-              <div className="select-bar">
-                <p
-                  onClick={onSetRange}
-                  className="active"
-                  ref={(el) => (rangeRef.current[0] = el)}
-                  data-range="short_term"
-                >
-                  최근 1개월
-                </p>
-                <p
-                  onClick={onSetRange}
-                  ref={(el) => (rangeRef.current[1] = el)}
-                  data-range="medium_term"
-                >
-                  최근 6개월
-                </p>
-                <p
-                  onClick={onSetRange}
-                  ref={(el) => (rangeRef.current[2] = el)}
-                  data-range="long_term"
-                >
-                  최근 1년
-                </p>
-              </div>
-            </div>
-            <div className="type">
-              <div className="select-bar">
-                <p
-                  onClick={onSetType}
-                  className="active"
-                  ref={(el) => (typeRef.current[0] = el)}
-                  data-type="tracks"
-                >
-                  곡 제목
-                </p>
-                <p onClick={onSetType} ref={(el) => (typeRef.current[1] = el)} data-type="artists">
-                  아티스트
-                </p>
-              </div>
-            </div>
-            <div className="receipt-img">
+            <section className="receipt-img">
               <ReceiptPaper data={data} type={type} ref={canvasRef} />
-            </div>
-            <div className="download">
-              <button onClick={onSaveReceipt}>다운로드</button>
-            </div>
+            </section>
+            <section className="selection">
+              <div className="range">
+                <div className="select-bar">
+                  <p
+                    onClick={onSetRange}
+                    className="active"
+                    ref={(el) => (rangeRef.current[0] = el)}
+                    data-range="short_term"
+                  >
+                    최근 1개월
+                  </p>
+                  <p
+                    onClick={onSetRange}
+                    ref={(el) => (rangeRef.current[1] = el)}
+                    data-range="medium_term"
+                  >
+                    최근 6개월
+                  </p>
+                  <p
+                    onClick={onSetRange}
+                    ref={(el) => (rangeRef.current[2] = el)}
+                    data-range="long_term"
+                  >
+                    최근 1년
+                  </p>
+                </div>
+              </div>
+              <div className="type">
+                <div className="select-bar">
+                  <p
+                    onClick={onSetType}
+                    className="active"
+                    ref={(el) => (typeRef.current[0] = el)}
+                    data-type="tracks"
+                  >
+                    곡 제목
+                  </p>
+                  <p
+                    onClick={onSetType}
+                    ref={(el) => (typeRef.current[1] = el)}
+                    data-type="artists"
+                  >
+                    아티스트
+                  </p>
+                </div>
+              </div>
+
+              <div className="download">
+                <button onClick={onSaveReceipt}>다운로드</button>
+              </div>
+            </section>
           </>
         ) : (
           <div className="no-usertoken">

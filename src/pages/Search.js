@@ -8,11 +8,6 @@ import SongList from "../components/SongList.js";
 import SearchBox from "../components/SearchBox.js";
 
 const SearchContainer = styled.main`
-  .inner {
-    width: 100%;
-    max-width: ${(props) => props.theme.maxWidth};
-  }
-
   .search {
     text-align: center;
   }

@@ -1,5 +1,5 @@
-import React, { useCallback, useRef } from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useCallback } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import { faCirclePlay } from "@fortawesome/free-solid-svg-icons";
@@ -70,21 +70,24 @@ const SongListContainer = styled.div`
 `;
 
 const SongList = (props) => {
-  const onSetName = useCallback((e) => {
-    const target = e.currentTarget;
+  const onSetName = useCallback(
+    (e) => {
+      const target = e.currentTarget;
 
-    if (props.setTrack) {
-      props.setTrack(target.dataset.track);
-      props.setQuery({
-        ...props.query,
-        seed_tracks: target.dataset.id,
-      });
-    }
+      if (props.setTrack) {
+        props.setTrack(target.dataset.track);
+        props.setQuery({
+          ...props.query,
+          seed_tracks: target.dataset.id,
+        });
+      }
 
-    if (props.setIsOpen) {
-      props.setIsOpen(false);
-    }
-  });
+      if (props.setIsOpen) {
+        props.setIsOpen(false);
+      }
+    },
+    [props]
+  );
 
   return (
     <SongListContainer>

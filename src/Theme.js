@@ -1,11 +1,16 @@
-const size = {
-  mobile: "720px",
-  desktop: "721px",
+const variable = {
+  mobile: "900px",
+  desktop: "901px",
+
+  pointColor: "#1ed760",
+  pointColorDarker: "#1ba738",
+  pointFontColor: "#fff",
+  alertText: "#dd0000",
 };
 
 const theme = {
-  mobile: `(max-width: ${size.mobile})`,
-  desktop: `(min-width: ${size.desktop})`,
+  mobile: `(max-width: ${variable.mobile})`,
+  desktop: `(min-width: ${variable.desktop})`,
 
   // 컬러
   pointColor: "#1ed760",
@@ -17,7 +22,7 @@ const theme = {
   gray: "#eee",
 
   // inner 안 max-width
-  maxWidth: "670px",
+  maxWidth: "900px",
 
   // 영수증 폰트
   receiptTitle: `
@@ -35,9 +40,17 @@ const theme = {
   button: `
     width: 100%;
     height: 35px;
-    background-color: #1ed760;
+    background-color: ${variable.pointColor};
     color: #fff;
     cursor: pointer;
+  `,
+
+  // 반짝이는 버튼
+  shine: `
+    border: 1px solid ${variable.pointColor};
+    box-shadow: 0 0 3px ${variable.pointColor};
+    background-color: $fff;
+    color: ${variable.pointColor};
   `,
 
   // 모달창
@@ -50,7 +63,8 @@ const theme = {
   `,
 
   // 메인페이지 앨범 이미지
-  smallImgWidth: "90px",
+  bigImgWidth: "250px",
+  smallImgWidth: "120px",
 };
 
 export default theme;

@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import { Routes, Route } from "react-router-dom";
 
 import Layout from "../components/layout/Layout.js";
@@ -34,6 +34,7 @@ const Router = () => {
           <Route path="/receipt" element={<Receipt />} />
 
           <Route path="/detail/:id" element={<Detail />} />
+          <Route path="/test" element={<Test />} />
           <Route path="*" element={<Main />} />
         </Route>
       </Routes>

@@ -1,5 +1,5 @@
-import React, { useCallback, useRef } from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { memo, useCallback } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import imgPH from "../assets/img/img-placeholder.png";
@@ -66,22 +66,25 @@ const ArtistListContainer = styled.div`
   }
 `;
 
-const ArtistList = (props) => {
-  const onSetName = useCallback((e) => {
-    const target = e.currentTarget;
+const ArtistList = memo((props) => {
+  const onSetName = useCallback(
+    (e) => {
+      const target = e.currentTarget;
 
-    if (props.setArtist) {
-      props.setArtist(target.dataset.artist);
-      props.setQuery({
-        ...props.query,
-        seed_artists: target.dataset.id,
-      });
-    }
+      if (props.setArtist) {
+        props.setArtist(target.dataset.artist);
+        props.setQuery({
+          ...props.query,
+          seed_artists: target.dataset.id,
+        });
+      }
 
-    if (props.setIsOpen) {
-      props.setIsOpen(false);
-    }
-  });
+      if (props.setIsOpen) {
+        props.setIsOpen(false);
+      }
+    },
+    [props]
+  );
 
   return (
     <ArtistListContainer>
@@ -121,6 +124,6 @@ const ArtistList = (props) => {
       </ul>
     </ArtistListContainer>
   );
-};
+});
 
 export default ArtistList;

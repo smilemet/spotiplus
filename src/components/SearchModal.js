@@ -50,20 +50,19 @@ const SearchContainer = styled(Modal)`
 
       span {
         display: inline-block;
-        padding: 0 10px;
-        margin: 2px 10px;
+        padding: 2px 8px;
+        margin: 3px 0;
         border: 1px solid #ccc;
         color: #333;
-        border-radius: 15px;
         white-space: wrap;
         word-break: keep-all;
         line-height: 1.5;
         background-color: #fff;
+        position: relative;
 
         &:hover {
-          border: 1px solid ${(props) => props.theme.pointColor};
-          color: ${(props) => props.theme.pointFontColor};
-          background-color: ${(props) => props.theme.pointColor};
+          ${(props) => props.theme.shine}
+          z-index: 1;
         }
       }
     }
@@ -84,21 +83,24 @@ const Search = (props) => {
   }, [props.isOpen]);
 
   // 장르 선택
-  const onSetName = useCallback((e) => {
-    const target = e.currentTarget;
+  const onSetName = useCallback(
+    (e) => {
+      const target = e.currentTarget;
 
-    if (props.searchWhat?.params.type === "genre") {
-      props.setGenre(target.innerText);
-      props.setQuery({
-        ...props.query,
-        seed_genres: target.innerText,
-      });
-    }
+      if (props.searchWhat?.params.type === "genre") {
+        props.setGenre(target.innerText);
+        props.setQuery({
+          ...props.query,
+          seed_genres: target.innerText,
+        });
+      }
 
-    if (props.setIsOpen) {
-      props.setIsOpen(false);
-    }
-  });
+      if (props.setIsOpen) {
+        props.setIsOpen(false);
+      }
+    },
+    [props]
+  );
 
   // 장르 선택 창 오픈 시 목록 표시
   useEffect(() => {

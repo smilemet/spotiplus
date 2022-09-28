@@ -1,23 +1,18 @@
 /**
  * 데이터 입력 시 추천 곡을 출력하는 맞춤추천 페이지
  */
-import React, { memo, useCallback, useEffect, useState } from "react";
+import React, { memo, useCallback, useState } from "react";
 import styled from "styled-components";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquarePlus } from "@fortawesome/free-regular-svg-icons";
 
 import SongList from "../components/SongList.js";
-import Search from "../components/SearchModal.js";
+import SearchModal from "../components/SearchModal.js";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
 const RecommendContainer = styled.main`
-  .inner {
-    width: 100%;
-    max-width: ${(props) => props.theme.maxWidth};
-  }
-
   .selection {
     max-width: 435px;
     margin: 0 auto;
@@ -104,7 +99,7 @@ const Recommend = memo(() => {
         limit: 50,
       },
     });
-  });
+  }, []);
 
   const onGetRecommend = useCallback(async () => {
     if (Object.values(query)?.length === 3) {
@@ -126,7 +121,7 @@ const Recommend = memo(() => {
     } else {
       setIsBlank("검색어를 입력해주세요.");
     }
-  });
+  }, [query, token]);
 
   return (
     <>
@@ -201,7 +196,7 @@ const Recommend = memo(() => {
           </section>
         </div>
       </RecommendContainer>
-      <Search
+      <SearchModal
         isOpen={isOpen}
         searchWhat={searchWhat}
         setIsOpen={setIsOpen}

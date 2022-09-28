@@ -1,16 +1,19 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import spotifylogo from "../../assets/img/Spotify_Logo_RGB_Green.png";
 
 const FooterContainer = styled.footer`
-  /* position: absolute; */
   width: 100vw;
-  bottom: 0;
-  padding: 20px 0;
+  padding: 10px 0;
   text-align: center;
   background-color: #fff;
+
+  hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 0 auto;
+  }
 
   img {
     width: 70px;
@@ -28,9 +31,10 @@ const Footer = () => {
   return (
     <FooterContainer>
       <div className="inner">
+        <hr />
         <img src={spotifylogo} alt="스포티파이 로고" />
         <p>
-          <Link to="https://github.com/smilemet/spotiplus">Github</Link>
+          <a href="https://github.com/smilemet/spotiplus">Github</a>
         </p>
       </div>
     </FooterContainer>

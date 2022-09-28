@@ -4,7 +4,6 @@ import styled from "styled-components";
 
 const LoadingContainer = styled.div`
   display: ${(props) => (props.isLoading ? "block" : "none")};
-  /* background-color: #ffffff; */
   inset: 0 0 0 0;
   width: 100vw;
   height: 100vh;

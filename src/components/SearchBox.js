@@ -41,7 +41,7 @@ const SearchBox = (props) => {
   const inputBox = useRef();
 
   // 검색 이벤트
-  const onSearch = () => {
+  const onSearch = useCallback(() => {
     // 검색어 없으면 경고문구
     if (!inputBox.current.value.trim("")) {
       setIsBlank("검색어를 입력해주세요.");
@@ -71,7 +71,7 @@ const SearchBox = (props) => {
         console.error(err);
       }
     })();
-  };
+  }, [props, token]);
 
   // 엔터 시 검색
   const onEnterEvent = useCallback((e) => {

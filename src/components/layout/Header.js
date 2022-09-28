@@ -76,7 +76,7 @@ const Header = () => {
   // 클릭 시 메뉴 모달창 팝업
   const handleMenu = useCallback(() => {
     setIsOpen((isOpen) => !isOpen);
-  });
+  }, []);
 
   return (
     <>
