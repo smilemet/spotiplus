@@ -65,8 +65,8 @@ const SearchBox = (props) => {
         });
 
         // 곡 리스트 정보
-        if (props.setList) {
-          props.setList(data);
+        if (props.setData) {
+          props.setData(data);
         }
 
         // 무한스크롤 쿼리값
@@ -80,10 +80,13 @@ const SearchBox = (props) => {
   }, [props, token]);
 
   // 엔터 시 검색
-  const onEnterEvent = useCallback((e) => {
-    if (e.key !== "Enter") return;
-    onSearch();
-  });
+  const onEnterEvent = useCallback(
+    (e) => {
+      if (e.key !== "Enter") return;
+      onSearch();
+    },
+    [onSearch]
+  );
 
   // 모달 껐다 킬 때 검색어 초기화
   useEffect(() => {

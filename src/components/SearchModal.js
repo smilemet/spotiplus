@@ -41,7 +41,7 @@ const SearchContainer = styled(Modal)`
   }
 
   .search-result {
-    overflow-y: ${(props) => (props.list ? "scroll" : "hidden")};
+    overflow-y: ${(props) => (props.data ? "scroll" : "hidden")};
 
     .genre {
       p {
@@ -75,11 +75,11 @@ const SearchContainer = styled(Modal)`
 
 const Search = (props) => {
   const { token } = useSelector((state) => state.token);
-  const [list, setList] = useState(null);
+  const [data, setData] = useState(null);
 
   // 창 닫기 시 데이터 클리어
   useEffect(() => {
-    setList(null);
+    setData(null);
   }, [props.isOpen]);
 
   // 장르 선택
@@ -120,7 +120,7 @@ const Search = (props) => {
               },
             }
           );
-          setList(data);
+          setData(data);
         } catch (err) {
           console.error(err);
         }
@@ -129,7 +129,7 @@ const Search = (props) => {
   }, [props.searchWhat]);
 
   return (
-    <SearchContainer {...props} list={list}>
+    <SearchContainer {...props} data={data}>
       <div className="modal-inner">
         <section className="search">
           <p className="title">
@@ -141,22 +141,22 @@ const Search = (props) => {
               <>장르 선택</>
             )}
           </p>
-          <SearchBox {...props} setList={setList} />
+          <SearchBox {...props} setData={setData} />
         </section>
         <section className="search-result">
-          {list ? (
+          {data ? (
             <>
-              {list.tracks ? (
+              {data.tracks ? (
                 <SongList
-                  data={list.tracks.items}
+                  data={data.tracks.items}
                   setIsOpen={props.setIsOpen}
                   setTrack={props.setTrack}
                   setQuery={props.setQuery}
                   query={props.query}
                 />
-              ) : list.artists ? (
+              ) : data.artists ? (
                 <ArtistList
-                  data={list.artists.items}
+                  data={data.artists.items}
                   setIsOpen={props.setIsOpen}
                   setArtist={props.setArtist}
                   setQuery={props.setQuery}
@@ -166,7 +166,7 @@ const Search = (props) => {
                 <div className="genre">
                   <p>선호 장르를 선택해주세요.</p>
                   <div>
-                    {list?.genres.map((v, i) => {
+                    {data?.genres.map((v, i) => {
                       return (
                         <span key={i} onClick={onSetName}>
                           {v}
