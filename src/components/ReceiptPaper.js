@@ -132,7 +132,7 @@ const ReceiptPaper = memo(
           )}
         </table>
         <p>방문해주셔서 감사합니다.</p>
-        <p>spotiplus.com</p>
+        <p>spotiplus.netlify.app</p>
       </ReceiptContainer>
     );
   })
