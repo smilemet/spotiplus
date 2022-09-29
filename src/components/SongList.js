@@ -1,7 +1,7 @@
 /**
  * 받아온 data를 바탕으로 곡 리스트 출력
  */
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -40,6 +40,7 @@ const SongListContainer = styled.div`
 
         & > img {
           width: 60px;
+          height: 60px;
           margin-right: 10px;
         }
 
@@ -110,24 +111,31 @@ const SongList = (props) => {
       let target = e.currentTarget;
       let audio = target.querySelector("audio");
 
-      // 기존 곡 재생 중에 다른 곡 재생버튼 클릭
       if (playingId && target.dataset.id !== playingId) {
+        // 기존 곡 재생 중에 다른 곡 재생버튼 클릭
         Array.from(document.querySelectorAll(".play-btn")).forEach((v) => {
           v.classList.remove("active");
         });
+
         Array.from(document.querySelectorAll("audio")).forEach((v) => {
           v.pause();
           v.currentTime = 0;
         });
 
-        audio.play();
+        let playPromise = audio.play();
+        if (playPromise !== undefined) playPromise.then((_) => {}).catch((error) => {});
+
         setPlayingId(target.dataset.id);
-      } else if (playingId) {
+      } else if (playingId !== "") {
+        // 재생 중인 그 곡 정지
         audio.pause();
         audio.currentTime = 0;
         setPlayingId("");
       } else {
-        audio.play();
+        // 기존 재생 없음 & 새로 재생
+        let playPromise = audio.play();
+        if (playPromise !== undefined) playPromise.then((_) => {}).catch((error) => {});
+
         setPlayingId(target.dataset.id);
       }
 
@@ -135,6 +143,13 @@ const SongList = (props) => {
     },
     [playingId]
   );
+
+  // 새로 검색할 때 기존 재생버튼 없애기
+  useEffect(() => {
+    Array.from(document.querySelectorAll(".play-btn")).forEach((v) => {
+      v.classList.remove("active");
+    });
+  }, [props.data]);
 
   return (
     <SongListContainer>
@@ -146,8 +161,8 @@ const SongList = (props) => {
                 <li key={index}>
                   <Link
                     className="song-info"
-                    data-track={item.name}
                     data-id={item.id}
+                    data-track={item.name}
                     to={props.link ? `/detail/${item.id}` : ""}
                     onClick={onSetName}
                   >
