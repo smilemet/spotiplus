@@ -74,8 +74,8 @@ const SearchBox = (props) => {
         }
 
         // 무한스크롤 구현을 위해 입력된 keyword를 상위 컴포넌트의 state로 전달
-        if (props.setQuery) {
-          props.setQuery(inputBox.current.value);
+        if (props.setKeyword) {
+          props.setKeyword(inputBox.current.value);
         }
       } catch (err) {
         console.error(err);

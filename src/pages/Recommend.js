@@ -121,7 +121,7 @@ const Recommend = memo(() => {
 
       setIsBlank(null);
     } else {
-      setIsBlank("검색어를 입력해주세요.");
+      setIsBlank("트랙, 아티스트, 장르를 모두 선택해주세요.");
     }
   }, [query, token]);
 
@@ -191,7 +191,7 @@ const Recommend = memo(() => {
           </section>
           <section>
             {data ? (
-              <SongList data={data.tracks} />
+              <SongList data={data.tracks} link={true} />
             ) : (
               <div className="no-data">검색 결과가 없습니다.</div>
             )}

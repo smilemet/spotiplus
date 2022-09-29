@@ -31,7 +31,7 @@ const Search = memo(() => {
   const { token } = useSelector((state) => state.token);
   const [data, setData] = useState(null);
   const [list, setList] = useState(null);
-  const [query, setQuery] = useState(null);
+  const [keyword, setKeyword] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
 
   // SearchBox로 전달할 파라미터
@@ -58,7 +58,7 @@ const Search = memo(() => {
         },
         params: {
           ...searchWhat.params,
-          q: query,
+          q: keyword,
           offset: list.length,
         },
       });
@@ -69,7 +69,7 @@ const Search = memo(() => {
     }
 
     setIsFetching(false);
-  }, [token, query, searchWhat.params, list]);
+  }, [token, keyword, searchWhat.params, list]);
 
   // 스크롤 하단 위치 시 새 데이터 획득 로직 구현
   useEffect(() => {
@@ -97,7 +97,7 @@ const Search = memo(() => {
     <SearchContainer>
       <div className="inner">
         <section className="search">
-          <SearchBox searchWhat={searchWhat} setData={setData} setQuery={setQuery} />
+          <SearchBox searchWhat={searchWhat} setData={setData} setKeyword={setKeyword} />
         </section>
         <section className="search-result">
           {data ? (

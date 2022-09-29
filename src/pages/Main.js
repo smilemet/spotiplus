@@ -5,6 +5,7 @@ import React, { memo, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
+import { getToken } from "../slices/TokenSlice.js";
 import { getList, setMainTop, setMainList } from "../slices/MainSlice.js";
 
 import styled from "styled-components";
@@ -71,9 +72,16 @@ const MainContainer = styled.main`
 const Main = memo(() => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const { token } = useSelector((state) => state.token);
+  const { token, expire } = useSelector((state) => state.token);
   const { data, mainTop, mainList } = useSelector((state) => state.mainList); // 전역 state - 메인페이지 track 정보
   const dispatch = useDispatch();
+
+  /** 페이지 마운트 시 토큰 획득 (토큰 없음, 기존 토큰 만료) */
+  useEffect(() => {
+    if (!token || expire < Date.now()) {
+      dispatch(getToken());
+    }
+  }, [dispatch, expire, token]);
 
   /** 메인화면 실행 시 곡 리스트 가져오기 */
   useEffect(() => {
