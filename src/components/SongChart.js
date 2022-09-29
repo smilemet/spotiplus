@@ -1,3 +1,6 @@
+/**
+ * 곡 상세페이지에서 곡의 오디오 분석결과를 출력해주는 차트
+ */
 import React from "react";
 import styled from "styled-components";
 

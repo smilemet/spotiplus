@@ -72,11 +72,12 @@ const Main = memo(() => {
   const [isLoading, setIsLoading] = useState(false);
 
   const { token } = useSelector((state) => state.token);
-  const { data, mainTop, mainList } = useSelector((state) => state.mainList);
+  const { data, mainTop, mainList } = useSelector((state) => state.mainList); // 전역 state - 메인페이지 track 정보
   const dispatch = useDispatch();
 
-  // 메인화면 실행 시 토큰 획득
+  /** 메인화면 실행 시 곡 리스트 가져오기 */
   useEffect(() => {
+    if (data) return;
     if (token) {
       dispatch(getList({ token, setIsLoading }));
     } else {

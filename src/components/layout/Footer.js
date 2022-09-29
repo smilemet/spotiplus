@@ -1,3 +1,4 @@
+/** 푸터 레이아웃 */
 import React from "react";
 import styled from "styled-components";
 

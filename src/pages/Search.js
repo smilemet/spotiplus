@@ -1,5 +1,5 @@
 /**
- * 곡 정보를 검색하는 페이지
+ * 곡 정보를 검색하는 검색 페이지
  */
 import React, { memo, useCallback, useEffect, useState } from "react";
 import styled from "styled-components";

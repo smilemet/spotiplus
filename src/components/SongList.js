@@ -1,3 +1,6 @@
+/**
+ * 받아온 data를 바탕으로 곡 리스트 출력
+ */
 import React, { useCallback } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -6,11 +9,12 @@ import { faCirclePlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import imgPH from "../assets/img/img-placeholder.png";
+import { useState } from "react";
 
 const SongListContainer = styled.div`
   ul {
-    border-top: 1px solid #888;
-    border-bottom: 1px solid #888;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
 
     li {
       display: flex;
@@ -63,14 +67,24 @@ const SongListContainer = styled.div`
         display: block;
         width: 40px;
         line-height: 60px;
+        color: #eee;
         font-size: 40px;
         text-align: center;
+        cursor: pointer;
+
+        &.active,
+        &:hover {
+          color: #000;
+        }
       }
     }
   }
 `;
 
 const SongList = (props) => {
+  const [playingId, setPlayingId] = useState("");
+
+  /** 추천 페이지 - 곡 선택 시 상위 컴포넌트의 state에 값 전달 & 검색 쿼리 업데이트 */
   const onSetName = useCallback(
     (e) => {
       const target = e.currentTarget;
@@ -88,6 +102,38 @@ const SongList = (props) => {
       }
     },
     [props]
+  );
+
+  /** 곡 미리듣기 재생버튼 클릭 이벤트 */
+  const onPlayMusic = useCallback(
+    (e) => {
+      let target = e.currentTarget;
+      let audio = target.querySelector("audio");
+
+      // 기존 곡 재생 중에 다른 곡 재생버튼 클릭
+      if (playingId && target.dataset.id !== playingId) {
+        Array.from(document.querySelectorAll(".play-btn")).forEach((v) => {
+          v.classList.remove("active");
+        });
+        Array.from(document.querySelectorAll("audio")).forEach((v) => {
+          v.pause();
+          v.currentTime = 0;
+        });
+
+        audio.play();
+        setPlayingId(target.dataset.id);
+      } else if (playingId) {
+        audio.pause();
+        audio.currentTime = 0;
+        setPlayingId("");
+      } else {
+        audio.play();
+        setPlayingId(target.dataset.id);
+      }
+
+      target.classList.toggle("active");
+    },
+    [playingId]
   );
 
   return (
@@ -120,9 +166,10 @@ const SongList = (props) => {
                       </p>
                     </div>
                   </Link>
-                  <Link className="play-btn" to="spotify 듣기 주소">
+                  <div className="play-btn" data-id={item.id} onClick={onPlayMusic}>
+                    <audio src={item.preview_url} />
                     <FontAwesomeIcon icon={faCirclePlay} />
-                  </Link>
+                  </div>
                 </li>
               );
             })

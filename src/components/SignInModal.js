@@ -1,3 +1,7 @@
+/**
+ * 현재 사이트에서 사용하지 않는 페이지
+ * 우측 modal 창 - 로그인 버튼, 메뉴 등을 놓을 수 있는 nav 페이지
+ */
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 

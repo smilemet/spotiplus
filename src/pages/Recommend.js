@@ -83,15 +83,16 @@ const Recommend = memo(() => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [searchWhat, setSearchWhat] = useState(null); // 모달에 params 전달
-  const [track, setTrack] = useState(null);
-  const [artist, setArtist] = useState(null);
-  const [genre, setGenre] = useState(null);
+
+  const [track, setTrack] = useState(null); // 선택된 곡 제목
+  const [artist, setArtist] = useState(null); // 선택된 아티스트 이름
+  const [genre, setGenre] = useState(null); // 선택된 장르 이름
 
   const [query, setQuery] = useState({}); // 맞춤추천 검색어(곡&아티스트&장르)
   const [data, setData] = useState(null); // 맞춤추천 데이터
   const [isBlank, setIsBlank] = useState(null);
 
-  // 트랙 검색
+  /** 트랙, 아티스트, 장르별 검색창 팝업 */
   const onSearch = useCallback((e) => {
     setIsOpen((isOpen) => !isOpen);
     setSearchWhat({

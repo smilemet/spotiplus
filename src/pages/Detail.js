@@ -17,7 +17,7 @@ const DetailComponent = styled.main`
   padding: 0;
 
   .song-detail {
-    max-width: 570px;
+    max-width: 700px;
     margin: 0 auto;
     padding-bottom: 20px;
     display: flex;
@@ -63,15 +63,16 @@ const DetailComponent = styled.main`
   }
 `;
 
-const Detail = (props) => {
+const Detail = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const { token } = useSelector((state) => state.token);
-  const { track, audio } = useSelector((state) => state.detail);
+  const { track, audio } = useSelector((state) => state.detail); // 전역 state - 상세페이지 track별 정보 & audio analysis
   const dispatch = useDispatch();
 
-  const { id } = useParams();
+  const { id } = useParams(); // url에서 곡 id 가져오기
 
+  /** id에 따른 곡 상세 정보 가져오기 */
   useEffect(() => {
     if (token) dispatch(getDetail({ id, token, setIsLoading }));
     return () => dispatch(clearDetail());

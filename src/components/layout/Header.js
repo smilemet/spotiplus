@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from "react";
+/** 헤더 레이아웃 */
+import React, { useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
@@ -73,10 +74,10 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
-  // 클릭 시 메뉴 모달창 팝업
-  const handleMenu = useCallback(() => {
-    setIsOpen((isOpen) => !isOpen);
-  }, []);
+  // 클릭 시 메뉴 모달창 팝업 - 현재 사용하지 않음
+  // const handleMenu = useCallback(() => {
+  //   setIsOpen((isOpen) => !isOpen);
+  // }, []);
 
   return (
     <>
@@ -92,9 +93,9 @@ const Header = () => {
                   <FontAwesomeIcon icon={faMagnifyingGlass} />
                 </NavLink>
               </span>
-              <span className="menu-icon" onClick={handleMenu}>
+              {/* <span className="menu-icon" onClick={handleMenu}>
                 <FontAwesomeIcon icon={faBars} />
-              </span>
+              </span> */}
             </div>
           </div>
 

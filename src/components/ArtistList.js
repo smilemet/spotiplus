@@ -1,3 +1,6 @@
+/**
+ * 받아온 data를 바탕으로 아티스트 리스트 출력
+ */
 import React, { memo, useCallback } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -67,6 +70,7 @@ const ArtistListContainer = styled.div`
 `;
 
 const ArtistList = memo((props) => {
+  /** 추천 페이지 - 아티스트 선택 시 상위 컴포넌트의 state에 값 전달 & 검색 쿼리 업데이트 */
   const onSetName = useCallback(
     (e) => {
       const target = e.currentTarget;

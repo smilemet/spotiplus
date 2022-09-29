@@ -24,7 +24,7 @@ const ReceiptContainer = styled.main`
     }
 
     .receipt-img {
-      flex-shrink: 0.2;
+      flex-shrink: 0;
       flex-grow: 2;
     }
 
@@ -32,7 +32,7 @@ const ReceiptContainer = styled.main`
       margin: 0 auto;
       max-width: 450px;
       flex-shrink: 1;
-      /* flex-grow: 2; */
+      flex-grow: 0;
     }
   }
 
@@ -96,7 +96,7 @@ const ReceiptContainer = styled.main`
     }
   }
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 750px) {
     .inner {
       display: block;
     }
@@ -123,15 +123,16 @@ const Receipt = () => {
   const canvasRef = createRef();
 
   const hash = window.location.href.indexOf("#");
-  let query = 0;
-  let searchURL = 0;
+  let query = "";
+  let searchURL = "";
 
+  /** 해시값(유저 전용 토큰) 가져오기 */
   if (hash !== -1) {
     query = window.location.href.substring(hash + 1);
     searchURL = new URLSearchParams(query);
   }
 
-  // 기간 설정
+  /** 기간 설정 */
   const onSetRange = useCallback((e) => {
     const target = e.currentTarget;
 
@@ -140,7 +141,7 @@ const Receipt = () => {
     setRange(target.dataset.range);
   }, []);
 
-  // 타입 설정
+  /** 타입 설정 (곡 || 아티스트) */
   const onSetType = useCallback((e) => {
     const target = e.currentTarget;
 
@@ -149,7 +150,7 @@ const Receipt = () => {
     setType(target.dataset.type);
   }, []);
 
-  // 페이지 마운트 후 기본값으로 영수증 생성
+  /** 페이지 마운트 후 쿼리 기본값으로 영수증 데이터 가져오기 */
   useEffect(() => {
     if (searchURL) {
       (async () => {
@@ -174,14 +175,12 @@ const Receipt = () => {
     }
   }, [type, range, hash]);
 
-  // 이미지 저장
+  /** 영수증 이미지 다운로드 */
   const onSaveReceipt = useCallback(() => {
     setIsLoading(true);
     console.log("hello");
 
-    if (canvasRef.current === null) {
-      return;
-    }
+    if (canvasRef.current === null) return;
 
     html2canvas(canvasRef.current).then((canvas) => {
       let link = document.createElement("a");

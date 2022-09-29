@@ -9,6 +9,7 @@ const URL = "https://api.spotify.com/v1/playlists" + "/37i9dQZEVXbMDoHDwVN2tF" +
 export const getList = createAsyncThunk("MainSlice/getList", async (payload = null) => {
   let result = null;
 
+  // 특정 플레이리스트의 곡 정보 가져오기
   try {
     payload.setIsLoading(true);
 

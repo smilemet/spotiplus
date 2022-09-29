@@ -1,3 +1,6 @@
+/**
+ * 영수증 생성을 위해 유저 개인별 토큰을 획득
+ */
 import styled from "styled-components";
 import { generateRandomString } from "./module/RandomString.js";
 
@@ -21,6 +24,7 @@ const UserSignInContainer = styled.div`
 `;
 
 const UserSignIn = () => {
+  /** 로그인 버튼 클릭 시 authorization 주소로 리다이렉트 */
   const login = () => {
     window.location.href = URL;
   };

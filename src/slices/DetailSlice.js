@@ -10,6 +10,7 @@ const audio = "https://api.spotify.com/v1/audio-features";
 export const getDetail = createAsyncThunk("DetailSlice/getDetail", async (payload = null) => {
   let result = {};
 
+  // 입력된 id를 바탕으로 해당 곡의 상세정보 가져오기
   try {
     payload.setIsLoading(true);
 
@@ -28,6 +29,7 @@ export const getDetail = createAsyncThunk("DetailSlice/getDetail", async (payloa
     console.err(`-----DetailSlice 에러-----\n ${err}`);
   }
 
+  // 입력된 id를 바탕으로 해당 곡의 audio analysis 가져오기
   try {
     result.audio = await axios.get(`${audio}/${payload.id}`, {
       headers: {

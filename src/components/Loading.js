@@ -1,3 +1,6 @@
+/**
+ * 데이터 수신에 지연이 발생할 경우 로딩 이미지를 출력
+ */
 import React from "react";
 import FadeLoader from "react-spinners/FadeLoader";
 import styled from "styled-components";

@@ -1,5 +1,5 @@
 /**
- * 맞춤추천 페이지에서 팝업되는 검색창
+ * 맞춤추천 페이지에서 트랙, 아티스트, 장르 정보 입력 시 팝업되는 검색창
  */
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
@@ -15,11 +15,14 @@ const SearchContainer = styled(Modal)`
   .modal {
     ${(props) => props.theme.centerModal}
     width: 70%;
+    max-width: 700px;
     height: 80vh;
     padding: 0;
     position: relative;
 
     .modal-inner {
+      display: flex;
+      flex-direction: column;
       width: 85%;
       height: 90%;
       margin: 0 auto;
@@ -33,7 +36,6 @@ const SearchContainer = styled(Modal)`
 
   .search {
     .title {
-      padding-left: 20px;
       margin-bottom: 15px;
       font-size: 20px;
       font-weight: bold;
@@ -42,6 +44,7 @@ const SearchContainer = styled(Modal)`
 
   .search-result {
     overflow-y: ${(props) => (props.data ? "scroll" : "hidden")};
+    ${(props) => props.theme.scrollBar}
 
     .genre {
       p {
@@ -77,12 +80,12 @@ const Search = (props) => {
   const { token } = useSelector((state) => state.token);
   const [data, setData] = useState(null);
 
-  // 창 닫기 시 데이터 클리어
+  /** 모달 창이 닫힐 때 출력한 데이터를 삭제함 */
   useEffect(() => {
     setData(null);
   }, [props.isOpen]);
 
-  // 장르 선택
+  /** 여러 장르 중 하나 선택 시 장르 state & 쿼리에 keyword 저장 */
   const onSetName = useCallback(
     (e) => {
       const target = e.currentTarget;
@@ -102,7 +105,7 @@ const Search = (props) => {
     [props]
   );
 
-  // 장르 선택 창 오픈 시 목록 표시
+  /** type: genre로 모달창 팝업 시 axios로 장르 keyword 출력 */
   useEffect(() => {
     if (props.searchWhat?.params.type === "genre") {
       (async () => {
@@ -141,7 +144,12 @@ const Search = (props) => {
               <>장르 선택</>
             )}
           </p>
-          <SearchBox {...props} setData={setData} />
+          {props.searchWhat?.params.type === "track" ||
+          props.searchWhat?.params.type === "artist" ? (
+            <SearchBox {...props} setData={setData} />
+          ) : (
+            <></>
+          )}
         </section>
         <section className="search-result">
           {data ? (

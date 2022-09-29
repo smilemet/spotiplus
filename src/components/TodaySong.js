@@ -1,3 +1,6 @@
+/**
+ * 메인페이지 하단 '이런 곡은 어때요' 리스트 출력
+ */
 import React from "react";
 import { Splide, SplideSlide, SplideTrack } from "@splidejs/react-splide";
 import styled from "styled-components";
@@ -34,7 +37,7 @@ const TodaySongContainer = styled.div`
     background-color: #fff;
     border-radius: 50%;
     font-size: 30px;
-    opacity: 0.7;
+    opacity: 0.4;
     position: absolute;
     top: 65px;
     z-index: 10;
@@ -67,7 +70,6 @@ const TodaySong = (props) => {
   return (
     <TodaySongContainer>
       <Splide
-        Splide
         options={{
           type: "slide",
           gap: "0.5rem",
@@ -91,7 +93,7 @@ const TodaySong = (props) => {
           {props.mainList ? (
             props.mainList.map((v, i) => {
               return (
-                <SplideSlide>
+                <SplideSlide key={i}>
                   <Link to={`/detail/${v.track.id}`} className="song-info">
                     <img
                       className="small-img"

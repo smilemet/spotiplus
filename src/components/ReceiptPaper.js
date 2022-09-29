@@ -1,3 +1,6 @@
+/**
+ * 받아온 data를 바탕으로 영수증 이미지를 생성
+ */
 import React, { forwardRef, memo, useEffect, useState } from "react";
 import styled from "styled-components";
 import dayjs from "dayjs";
@@ -52,6 +55,7 @@ const ReceiptPaper = memo(
   forwardRef((props, ref) => {
     const [date, setDate] = useState("");
 
+    /** 영수증 날짜 입력 */
     useEffect(() => {
       setDate(dayjs(Date.now()).format("YYYY-MM-DD"));
     }, []);

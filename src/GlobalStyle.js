@@ -6,7 +6,6 @@ const GlobalStyle = createGlobalStyle`
 
   * {
     box-sizing: border-box;
-    /* background-color:#000 */
   }
   
   body {
@@ -59,7 +58,7 @@ const GlobalStyle = createGlobalStyle`
   .inner {
     position: relative;
     min-width: 360px;
-    max-width: 900px;
+    max-width: 800px;
     margin: 0 auto;
     padding: 0 25px;
   }

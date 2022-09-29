@@ -1,6 +1,6 @@
 const variable = {
-  mobile: "900px",
-  desktop: "901px",
+  mobile: "800px",
+  desktop: "801px",
 
   pointColor: "#1ed760",
   pointColorDarker: "#1ba738",
@@ -22,7 +22,7 @@ const theme = {
   gray: "#eee",
 
   // inner 안 max-width
-  maxWidth: "900px",
+  maxWidth: "800px",
 
   // 영수증 폰트
   receiptTitle: `
@@ -60,6 +60,24 @@ const theme = {
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
+  `,
+
+  // 스크롤
+  scrollBar: `
+    &::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+      background-color: #ffffff50;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background-color: #00000020;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: #ffffff50;
+    }
   `,
 
   // 메인페이지 앨범 이미지

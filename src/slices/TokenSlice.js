@@ -28,6 +28,7 @@ export const getToken = createAsyncThunk("TokenSlice/getToken", async () => {
       }
     );
 
+    // 토큰을 로컬 스토리지에 저장 → 만료되기 전까지는 새 토큰 가져오지 않음
     const tokenObj = {
       value: result.data.access_token,
       expire: Date.now() + result.data.expires_in * 1000,

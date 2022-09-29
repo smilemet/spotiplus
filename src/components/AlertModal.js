@@ -1,5 +1,6 @@
 /**
- * 경고창으로 쓸지말지
+ * 현재 사이트에서 사용하지 않는 페이지
+ * 특정 상황에서 경고창 팝업
  */
 import React from "react";
 import styled from "styled-components";

@@ -1,3 +1,7 @@
+/**
+ * 검색 키워드 입력 박스
+ * 입력된 검색어를 토대로 서버에서 데이터를 받아오는 로직을 포함한다.
+ */
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
@@ -40,7 +44,7 @@ const SearchBox = (props) => {
   const [isBlank, setIsBlank] = useState("");
   const inputBox = useRef();
 
-  // 검색 이벤트
+  /** 검색 이벤트 */
   const onSearch = useCallback(() => {
     // 검색어 없으면 경고문구
     if (!inputBox.current.value.trim("")) {
@@ -64,12 +68,12 @@ const SearchBox = (props) => {
           },
         });
 
-        // 곡 리스트 정보
+        // 가져온 곡 정보를 상위 컴포넌트의 state로 전달
         if (props.setData) {
           props.setData(data);
         }
 
-        // 무한스크롤 쿼리값
+        // 무한스크롤 구현을 위해 입력된 keyword를 상위 컴포넌트의 state로 전달
         if (props.setQuery) {
           props.setQuery(inputBox.current.value);
         }
@@ -79,7 +83,7 @@ const SearchBox = (props) => {
     })();
   }, [props, token]);
 
-  // 엔터 시 검색
+  /** 검색어 입력 후 엔터 시 검색 이벤트 발생 */
   const onEnterEvent = useCallback(
     (e) => {
       if (e.key !== "Enter") return;
@@ -88,7 +92,7 @@ const SearchBox = (props) => {
     [onSearch]
   );
 
-  // 모달 껐다 킬 때 검색어 초기화
+  /** 모달창이 닫혔다 열릴 때 keyword 초기화 */
   useEffect(() => {
     inputBox.current.value = "";
   }, [props.isOpen]);

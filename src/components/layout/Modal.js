@@ -1,3 +1,4 @@
+/** 모달창 레이아웃 */
 import React, { useRef } from "react";
 import styled from "styled-components";
 
